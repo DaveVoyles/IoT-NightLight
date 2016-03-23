@@ -9,10 +9,7 @@ namespace SendCloudToDevice
     {
 
         static ServiceClient serviceClient;
-        static string connectionString   = "HostName=dv-iot-labs.azure-devices.net;DeviceId=rasp;SharedAccessKey=lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
-
-        private static string connString =
-            "HostName=dv-iot-labs.azure-devices.net;DeviceId=mySecondDevice;SharedAccessSignature=SharedAccessSignaturesr=dv-iot-labs.azure-devices.net%2fdevices%2fmySecondDevice&sig=jLafWuadTpQy%2fQR10OPSpJiQka2uj%2fZ3PccvzaUfngw%3d&se=1458754885";
+        private static string connString = "HostName=dv-iot-labs.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=leERufTFaeRxPx7o9KN7w0Abc8Sl+Y6S11AkLo6iHFI=";
         static string DeviceToReceiveMsg = "rasp";
 
         static void Main(string[] args)
