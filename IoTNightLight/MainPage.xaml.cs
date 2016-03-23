@@ -98,7 +98,7 @@ namespace IoTNightLight
             }
 
             // Read sensors every 100ms and refresh the UI
-            readSensorTimer = new Timer(this.SensorTimer_Tick, null, 0, 100);
+            readSensorTimer = new Timer(this.SensorTimer_Tick, null, 0, 1500);
 
             // Instantiate the Azure device client
             deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
@@ -216,7 +216,6 @@ namespace IoTNightLight
         }
 
 
-
         private async Task InitGpioAsync()
         {
             var gpio = await GpioController.GetDefaultAsync();
@@ -230,7 +229,6 @@ namespace IoTNightLight
             redLedPin.Write(GpioPinValue.High);
             redLedPin.SetDriveMode(GpioPinDriveMode.Output);
         }
-
 
 
         private void LightLed()
@@ -268,7 +266,6 @@ namespace IoTNightLight
         }
 
 
-
         private async Task InitSpiAsync()
         {
             try
@@ -278,22 +275,19 @@ namespace IoTNightLight
                 // 2.0MHz is the rated speed of the MCP3208 at 5v (1.0MHz @ 2.7V)
                 settings.ClockFrequency = 800000; // Set the clock frequency at or slightly below the specified rate speed
                                                   // The ADC expects idle-low clock polarity so we use Mode0
-                settings.Mode = SpiMode.Mode0;
+                settings.Mode           = SpiMode.Mode0;
                 // Get a selector string that will return all SPI controllers on the system
-                string spiAqs = SpiDevice.GetDeviceSelector(SPI_CONTROLLER_NAME);
+                string spiAqs           = SpiDevice.GetDeviceSelector(SPI_CONTROLLER_NAME);
                 // Find the SPI bus controller devices with our selector string 
-                var deviceInfo = await DeviceInformation.FindAllAsync(spiAqs);
+                var deviceInfo          = await DeviceInformation.FindAllAsync(spiAqs);
                 // Create an SpiDevice with our bus controller and SPI settings
-                spiAdc = await SpiDevice.FromIdAsync(deviceInfo[0].Id, settings);
+                     spiAdc             = await SpiDevice.FromIdAsync(deviceInfo[0].Id, settings);
             }
             catch (Exception ex)
             {
                 throw new Exception("SPI initialization failed.", ex);
             }
         }
-
-
-
 
     }
 }

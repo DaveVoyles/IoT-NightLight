@@ -15,6 +15,9 @@
             <ScrollViewer>
                 <TextBlock x:Name="MessageLog" Text="Message Log" Margin="10,50,10,10" TextAlignment="Center" Height="150" FontSize="16" />
             </ScrollViewer>
+            <ScrollViewer>
+                <TextBlock x:Name="MessagesIn" Text="Input Log" Margin="10,10,10,10" TextAlignment="Center" Height="150" FontSize="16" />
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </Page>
