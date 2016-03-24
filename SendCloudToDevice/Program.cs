@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace SendCloudToDevice
 {
+    /* Sends message from app to IoT Hub, which gets picked up by Raspberry Pi */
     class Program
     {
-
         static ServiceClient serviceClient;
         private static string connString = "HostName=dv-iot-labs.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=leERufTFaeRxPx7o9KN7w0Abc8Sl+Y6S11AkLo6iHFI=";
         static string DeviceToReceiveMsg = "rasp";
