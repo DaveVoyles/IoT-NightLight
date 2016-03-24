@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTNightLight", "IoTNightLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendCloudToDevice", "SendCloudToDevice\SendCloudToDevice.csproj", "{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadDeviceToCloudMessages", "ReadDeviceToCloudMessages\ReadDeviceToCloudMessages.csproj", "{06463B22-ED3E-4467-8A0C-E402EA2AB494}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,7 +21,9 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{67201717-7191-4422-A793-5603A6AA8855}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{67201717-7191-4422-A793-5603A6AA8855}.Debug|Any CPU.ActiveCfg = Debug|ARM
+		{67201717-7191-4422-A793-5603A6AA8855}.Debug|Any CPU.Build.0 = Debug|ARM
+		{67201717-7191-4422-A793-5603A6AA8855}.Debug|Any CPU.Deploy.0 = Debug|ARM
 		{67201717-7191-4422-A793-5603A6AA8855}.Debug|ARM.ActiveCfg = Debug|ARM
 		{67201717-7191-4422-A793-5603A6AA8855}.Debug|ARM.Build.0 = Debug|ARM
 		{67201717-7191-4422-A793-5603A6AA8855}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -41,6 +45,7 @@ Global
 		{67201717-7191-4422-A793-5603A6AA8855}.Release|x86.Deploy.0 = Release|x86
 		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Debug|ARM.Build.0 = Debug|Any CPU
 		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -55,6 +60,22 @@ Global
 		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Release|x64.Build.0 = Release|Any CPU
 		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Release|x86.ActiveCfg = Release|Any CPU
 		{3FD0D72E-0AD9-4543-B19F-3260569EEDAB}.Release|x86.Build.0 = Release|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Debug|ARM.Build.0 = Debug|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Debug|x64.Build.0 = Debug|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Debug|x86.Build.0 = Debug|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Release|ARM.ActiveCfg = Release|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Release|ARM.Build.0 = Release|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Release|x64.ActiveCfg = Release|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Release|x64.Build.0 = Release|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Release|x86.ActiveCfg = Release|Any CPU
+		{06463B22-ED3E-4467-8A0C-E402EA2AB494}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
