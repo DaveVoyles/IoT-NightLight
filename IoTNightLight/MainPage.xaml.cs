@@ -90,13 +90,12 @@ namespace IoTNightLight
             }
         }
 
-         private async Task InitAllAsync()
+        private async Task InitAllAsync()
         {
             try
             {
                 Task[] initTasks = { InitGpioAsync(), InitSpiAsync() };
-                await Task.WhenAll(initTasks);
-        
+                await Task.WhenAll(initTasks);    
             }
             catch (Exception ex)
             {
@@ -117,9 +116,8 @@ namespace IoTNightLight
                 //    .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
             }
             catch (Exception ex) 
-             {
-                 
-                 Debug.Write("\n EXCEPTION:  " + ex.ToString() + "\n");
+             {             
+                 Debug.Write("\n EXCEPTION: device client  " + ex.ToString() + "\n");
              }
 
             // Send messages to Azure IoT Hub every one-second
@@ -149,10 +147,10 @@ namespace IoTNightLight
                 try
                 {
                     Message receivedMessage = await deviceClient.ReceiveAsync();
-                    Debug.WriteLine("\n received Message: " + receivedMessage);
-                    if (receivedMessage == null) continue;
 
-                    var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+                    if (receivedMessage == null) { continue; }
+
+                    var msg         = Encoding.ASCII.GetString(receivedMessage.GetBytes());
                     MessagesIn.Text = ("Received message: " + msg + " TIME: " + DateTime.Now.ToLocalTime().ToString());
 
                     await deviceClient.CompleteAsync(receivedMessage);
