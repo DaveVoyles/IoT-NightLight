@@ -71,8 +71,6 @@ namespace IoTNightLight
         public MainPage()
         {
             this.InitializeComponent();
-
-            // Register the Unloaded event to clean up on exit
             Unloaded += MainPage_Unloaded;
 
             // Initialize GPIO and SPI
@@ -91,7 +89,6 @@ namespace IoTNightLight
                 redLedPin.Dispose();
             }
         }
-
 
          private async Task InitAllAsync()
         {
@@ -128,17 +125,14 @@ namespace IoTNightLight
             // Send messages to Azure IoT Hub every one-second
             sendMessageTimer = new Timer(this.MessageTimer_Tick, null, 0, 1500);
 
-            StatusText.Text = "Status: Running";
-
-            //ReceiveC2dAsync();
+            StatusText.Text = "STATUS: Running";
+            await ReceiveC2dAsync();
         }
 
         private void MessageTimer_Tick(object state)
         {
             SendMessageToIoTHubAsync(adcValue);
         }
-
-
 
         private void SensorTimer_Tick(object state)
         {
@@ -149,23 +143,17 @@ namespace IoTNightLight
 
         private async Task ReceiveC2dAsync()
         {
-
             MessagesIn.Text = ("\nReceiving cloud to device messages from service");
-            //Console.WriteLine("\nReceiving cloud to device messages from service");
             while (true)
             {
                 try
                 {
                     Message receivedMessage = await deviceClient.ReceiveAsync();
-                    Debug.WriteLine("received Message: " + receivedMessage);
+                    Debug.WriteLine("\n received Message: " + receivedMessage);
                     if (receivedMessage == null) continue;
 
-                    //Console.ForegroundColor = ConsoleColor.Yellow;
-                    //Console.WriteLine("Received message: {0}", Encoding.ASCII.GetString(receivedMessage.GetBytes()));
-                    //Console.ResetColor();
                     var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
-
-                    MessagesIn.Text = ("Received message: " + msg);
+                    MessagesIn.Text = ("Received message: " + msg + " TIME: " + DateTime.Now.ToLocalTime().ToString());
 
                     await deviceClient.CompleteAsync(receivedMessage);
                 }
@@ -174,39 +162,10 @@ namespace IoTNightLight
                     // UI updates must be invoked on the UI thread
                     var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
-                        MessagesIn.Text = "Sending message: " + ex.Message + "\n" + MessagesIn.Text;
+                        MessagesIn.Text = "Sending message: " + ex.ToString() + "\n" + MessagesIn.Text;
                     });
                 }
             }
-
-            //try
-            //{
-            //    MessagesIn.Text = ("\nReceiving cloud to device messages from service");
-            //    //Console.WriteLine("\nReceiving cloud to device messages from service");
-            //    while (true)
-            //    {
-            //        Message receivedMessage = await deviceClient.ReceiveAsync();
-            //        if (receivedMessage == null) continue;
-
-            //        //Console.ForegroundColor = ConsoleColor.Yellow;
-            //        //Console.WriteLine("Received message: {0}", Encoding.ASCII.GetString(receivedMessage.GetBytes()));
-            //        //Console.ResetColor();
-            //        var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
-            //        MessagesIn.Text = ("Received message: " + msg);
-
-            //        await deviceClient.CompleteAsync(receivedMessage);
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    // UI updates must be invoked on the UI thread
-            //    var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            //    {
-            //        Debug.Write("Well this didn't work: " + ex.Message);
-            //        MessagesIn.Text = "Sending message: " + ex.Message + "\n" + MessagesIn.Text;
-            //    });
-            //}
-
         }
 
 
