@@ -7,12 +7,9 @@ using Windows.Devices.Enumeration;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
-using Windows.Networking.Sockets;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Microsoft.Azure.Devices.Client;
-using Newtonsoft.Json;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -30,10 +27,8 @@ namespace IoTNightLight
             MCP3208
         };
 
-        // used for http1 for DeviceClient.Create()
-        private const string IOT_HUB_HOST_NAME = "HostName=dv-iot-labs.azure-devices.net;";
-        //"HostName=dv-iot-labs.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=leERufTFaeRxPx7o9KN7w0Abc8Sl+Y6S11AkLo6iHFI=";
-
+        // used for http1 for DeviceClient.Create() (also called iotHubUri)
+        private const string IOT_HUB_HOST_NAME       = "dv-iot-labs.azure-devices.net";
         // Use the device specific connection string here. Used for AMQPS and DeviceClient.CreateFromConnectionString()
         private const string IOT_HUB_CONN_STRING     = "HostName=dv-iot-labs.azure-devices.net;DeviceId=rasp;SharedAccessKey=lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
         // Use the name of your Azure IoT device here - this should be the same as the name in the connections string
@@ -109,18 +104,18 @@ namespace IoTNightLight
              try
              {
                 // Instantiate the Azure device client
-                deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
+                //deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
 
                 // UWP can't use AMQPS, so need to override and define Http1 transport
-                //deviceClient = DeviceClient.Create(IOT_HUB_HOST_NAME, AuthenticationMethodFactory
-                //    .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
+                deviceClient = DeviceClient.Create(IOT_HUB_HOST_NAME, AuthenticationMethodFactory
+                    .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
             }
             catch (Exception ex) 
              {             
                  Debug.Write("\n EXCEPTION: device client  " + ex.ToString() + "\n");
              }
 
-            // Send messages to Azure IoT Hub every one-second
+            // Send messages to Azure IoT Hub every 1.5 secs
             sendMessageTimer = new Timer(this.MessageTimer_Tick, null, 0, 1500);
 
             StatusText.Text = "STATUS: Running";

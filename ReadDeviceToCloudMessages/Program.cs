@@ -16,8 +16,8 @@ namespace ReadDeviceToCloudMessages
         static void Main(string[] args)
         {
             Console.WriteLine("Receive messages\n");
-            eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
 
+            eventHubClient    = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
             var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;
 
             foreach (string partition in d2cPartitions)
@@ -30,11 +30,12 @@ namespace ReadDeviceToCloudMessages
 
         private async static Task ReceiveMessagesFromDeviceAsync(string partition)
         {
+            //  receive messages from all the IoT hub device-to-cloud receive partitions.  Only receives messages sent after it starts. 
             var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.UtcNow);
             while (true)
             {
                 EventData eventData = await eventHubReceiver.ReceiveAsync();
-                if (eventData == null) continue;
+                if (eventData == null) { continue;}
 
                 string data = Encoding.UTF8.GetString(eventData.GetBytes());
                 Console.WriteLine($"Message received. Partition: {partition} Data: '{data}'");
