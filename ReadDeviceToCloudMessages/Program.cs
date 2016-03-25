@@ -15,7 +15,7 @@ namespace ReadDeviceToCloudMessages
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Receive messages\n");
+            Console.WriteLine("I can receive messages from the IoT Hub and display them here: \n");
 
             eventHubClient    = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
             var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;

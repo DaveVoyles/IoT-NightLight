@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
 
+/* Sends messages from console app to IoT Hub */
 namespace DeviceClientAmqpSample
 {
     class Program
     {
-
-
         // String containing Hostname, Device Id & Device Key in one of the following formats:
         //  "HostName=<iothub_host_name>;DeviceId=<device_id>;SharedAccessKey=<device_key>"
         //  "HostName=<iothub_host_name>;CredentialType=SharedAccessSignature;DeviceId=<device_id>;SharedAccessSignature=SharedAccessSignature sr=<iot_host>/devices/<device_id>&sig=<token>&se=<expiry_time>";
@@ -27,10 +24,11 @@ namespace DeviceClientAmqpSample
 
                 if (deviceClient == null)
                 {
-                    Console.WriteLine("Failed to create DeviceClient!");
+                    Console.WriteLine("Failed to create DeviceClient! deviceClient == null");
                 }
                 else
                 {
+                    Console.WriteLine("I can send messages to the IoT Hub! \n");
                     SendEvent(deviceClient).Wait();
                     ReceiveCommands(deviceClient).Wait();
                 }

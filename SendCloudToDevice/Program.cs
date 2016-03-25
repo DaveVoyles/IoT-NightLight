@@ -27,14 +27,16 @@ namespace SendCloudToDevice
         static void Main(string[] args)
         {
             Console.WriteLine("SIMULATED DEVICE\n");
+            Console.WriteLine("I can send messages directly to the Raspberry Pi. Current target: " +
+                              DEVICE_TO_RECEIVE_MSG);
             deviceClient = DeviceClient.Create(IOT_HUB_URI, new DeviceAuthenticationWithRegistrySymmetricKey(NAME_OF_DEVICE, SHARED_ACCES_KEY));
 
             sendMessageToDevice();
+           
             Console.ReadLine();
         }
 
 
-        // New
         private static async void SendDeviceToCloudMessagesAsync()
         {
             double avgWindSpeed = 10; // m/s
@@ -58,7 +60,6 @@ namespace SendCloudToDevice
                 Thread.Sleep(1000);
             }
         }
-
 
 
         private static async void sendMessageToDevice()
