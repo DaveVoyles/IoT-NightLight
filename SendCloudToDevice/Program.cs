@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Text;
-//using Microsoft.Azure.Devices; // Messaging conflicts with Devices.Client namespace
-
-// New
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System.Threading;
@@ -22,7 +19,7 @@ namespace SendCloudToDevice
         private const string NAME_OF_DEVICE        = "DeviceClient";
         private const string SHARED_ACCES_KEY      = "1q8HuqL0kPRZG9TAX62qBeCs88mOx1CAU7Jdsm5F9/E=";
         private const string IOT_HUB_CONN_STRING   = "HostName=dv-iot-labs.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=leERufTFaeRxPx7o9KN7w0Abc8Sl+Y6S11AkLo6iHFI=";
-
+              
 
         static void Main(string[] args)
         {
@@ -31,9 +28,32 @@ namespace SendCloudToDevice
                               DEVICE_TO_RECEIVE_MSG);
             deviceClient = DeviceClient.Create(IOT_HUB_URI, new DeviceAuthenticationWithRegistrySymmetricKey(NAME_OF_DEVICE, SHARED_ACCES_KEY));
 
-            sendMessageToDevice();
-           
-            Console.ReadLine();
+            String command;
+
+            Boolean quitNow = false;
+                while (!quitNow)
+                {
+                    command = Console.ReadLine();
+                    switch (command)    
+                    {
+                        case "/help":
+                            Console.WriteLine("This should be help.");
+                            break;
+
+                        case "/version":
+                            Console.WriteLine("This should be version.");
+                            break;
+
+                        case "/quit":
+                            quitNow = true;
+                            break;
+
+                        default:
+                            Console.WriteLine("Unknown Command: " + command);
+                            break;
+                    }
+                    sendMessageToDevice(command); 
+                }
         }
 
 
@@ -62,14 +82,11 @@ namespace SendCloudToDevice
         }
 
 
-        private static async void sendMessageToDevice()
+        private static async void sendMessageToDevice(string cmd)
         {
             try
             {
-                String cloudToDeviceMessage = "";
-                //cloudToDeviceMessage = DateTime.Now.ToLocalTime() + " - " + textBoxMessage.Text;
-                cloudToDeviceMessage = DateTime.Now.ToLocalTime() + " - " + "hello!";
-
+                var cloudToDeviceMessage    = DateTime.Now.ToLocalTime() + " - " + cmd;
                 ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
 
                 var serviceMessage =
