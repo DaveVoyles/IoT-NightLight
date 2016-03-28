@@ -28,56 +28,45 @@ namespace SendCloudToDevice
                               DEVICE_TO_RECEIVE_MSG);
             deviceClient = DeviceClient.Create(IOT_HUB_URI, new DeviceAuthenticationWithRegistrySymmetricKey(NAME_OF_DEVICE, SHARED_ACCES_KEY));
 
-            String command;
-
-            Boolean quitNow = false;
-                while (!quitNow)
-                {
-                    command = Console.ReadLine();
-                    switch (command)    
-                    {
-                        case "/help":
-                            Console.WriteLine("This should be help.");
-                            break;
-
-                        case "/version":
-                            Console.WriteLine("This should be version.");
-                            break;
-
-                        case "/quit":
-                            quitNow = true;
-                            break;
-
-                        default:
-                            Console.WriteLine("Unknown Command: " + command);
-                            break;
-                    }
-                    sendMessageToDevice(command); 
-                }
+            ParseText();
         }
 
 
-        private static async void SendDeviceToCloudMessagesAsync()
+        private static void ParseText()
         {
-            double avgWindSpeed = 10; // m/s
-            Random rand = new Random();
-
-            while (true)
+            Boolean quitNow = false;
+            while (!quitNow)
             {
-                double currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
-
-                var telemetryDataPoint = new
+                var command = Console.ReadLine();
+                switch (command)
                 {
-                    deviceId = "myFirstDevice",
-                    windSpeed = currentWindSpeed
-                };
-                var messageString = JsonConvert.SerializeObject(telemetryDataPoint);
-                var message       = new Message(Encoding.ASCII.GetBytes(messageString));
+                    case "help":
+                        Console.WriteLine("Possible commands: \n" +
+                                          "/quit: Exits application" +
+                                          "TODO: Insert commands from switch statement here");
+                        break;
 
-                await deviceClient.SendEventAsync(message);
-                Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
+                    case "/version":
+                        Console.WriteLine("This should be version.");
+                        break;
 
-                Thread.Sleep(1000);
+                    case "/quit":
+                        quitNow = true;
+                        break;
+
+                    case "temp":
+                        //TODO: Create function to adjust GUI on client
+                        break;
+
+                    case "light":
+                       //TODO: Create function to adjust GUI on client
+                        break;
+
+                    default:
+                        Console.WriteLine("Unknown Command: " + command);
+                        break;
+                }
+                sendMessageToDevice(command);
             }
         }
 
@@ -105,5 +94,35 @@ namespace SendCloudToDevice
                Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
             }
         }
+
+
+
+
+
+
+        private static async void SendDeviceToCloudMessagesAsync()
+        {
+            double avgWindSpeed = 10; // m/s
+            Random rand = new Random();
+
+            while (true)
+            {
+                double currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
+
+                var telemetryDataPoint = new
+                {
+                    deviceId = "myFirstDevice",
+                    windSpeed = currentWindSpeed
+                };
+                var messageString = JsonConvert.SerializeObject(telemetryDataPoint);
+                var message = new Message(Encoding.ASCII.GetBytes(messageString));
+
+                await deviceClient.SendEventAsync(message);
+                Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
+
+                Thread.Sleep(1000);
+            }
+        }
+
     }
 }
