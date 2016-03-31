@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Microsoft.Azure.Devices.Client;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -66,11 +67,58 @@ namespace IoTNightLight
         public MainPage()
         {
             this.InitializeComponent();
+            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            Loaded += MainPage_Loaded;
             Unloaded += MainPage_Unloaded;
 
             // Initialize GPIO and SPI
             InitAllAsync();
         }
+
+
+
+
+        private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Goto(70);
+        }
+
+        public void Go()
+        {
+            Goto(int.Parse(MyTextBox.Text));
+        }
+
+        private void Goto(int percentage)
+        {
+            var oldMin = 0;
+            var oldMax = 100;
+            var newMin = -90;
+            var newMax = 90;
+            var oldRange = (oldMax - oldMin);
+            var newRange = (newMax - newMin);
+            var newValue = (((percentage - oldMin) * newRange) / oldRange) + newMin;
+
+            var storyboard = new Storyboard();
+            var animation = new DoubleAnimation
+            {
+                To = newValue,
+                Duration = TimeSpan.FromSeconds(.3),
+                EasingFunction = new BounceEase
+                {
+                    EasingMode = EasingMode.EaseOut,
+                    Bounces = 1,
+                    Bounciness = 5,
+                },
+            };
+            Storyboard.SetTarget(animation, ArrowTransform);
+            Storyboard.SetTargetProperty(animation, "Rotation");
+            storyboard.Children.Add(animation);
+            storyboard.Begin();
+        }
+
+
+
+
 
         private void MainPage_Unloaded(object sender, RoutedEventArgs e)
         {

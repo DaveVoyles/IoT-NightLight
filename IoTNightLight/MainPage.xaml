@@ -5,6 +5,7 @@
     xmlns:local="using:IoTNightLight"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:controls="using:Template10.Controls"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -19,5 +20,46 @@
                 <TextBlock x:Name="MessagesIn" Text="Input Log" Margin="10,10,10,10" TextAlignment="Center" Height="150" FontSize="16" />
             </ScrollViewer>
         </StackPanel>
+
+
+        <RelativePanel>
+
+            <controls:RingSegment x:Name="Ring" EndAngle="90" InnerRadius="75"
+                              Radius="150" RelativePanel.AlignHorizontalCenterWithPanel="True"
+                              RelativePanel.AlignVerticalCenterWithPanel="True" StartAngle="-90">
+                <controls:RingSegment.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="Lime" />
+                        <GradientStop Offset="1" Color="Red" />
+                        <GradientStop Offset="0.505" Color="#FFFFFB00" />
+                        <GradientStop Offset="0.291" Color="#FFC5FF00" />
+                        <GradientStop Offset="0.727" Color="#FFFFDC00" />
+                    </LinearGradientBrush>
+                </controls:RingSegment.Fill>
+            </controls:RingSegment>
+
+            <Path x:Name="path" Width="31" Height="150"
+              Data="F1 M 295.5,308.25L 281.5,-17.75L 265,309.75" Fill="#FFFFFFFF"
+              RelativePanel.AlignHorizontalCenterWith="Ring" RelativePanel.AlignTopWith="Ring"
+              RenderTransformOrigin="0.5,1" Stretch="Uniform" Stroke="#FF000000"
+              StrokeLineJoin="Round">
+                <Path.RenderTransform>
+                    <CompositeTransform x:Name="ArrowTransform" Rotation="-40" />
+                </Path.RenderTransform>
+            </Path>
+
+            <Ellipse Width="25" Height="25" Fill="Orange"
+                 RelativePanel.AlignHorizontalCenterWith="Ring"
+                 RelativePanel.AlignVerticalCenterWith="Ring" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,75,0,0"
+            RelativePanel.AlignHorizontalCenterWith="Ring"
+                 RelativePanel.AlignVerticalCenterWith="Ring">
+                <TextBox x:Name="MyTextBox" />
+                <Button Content="Go" Click="{x:Bind Go}" />
+            </StackPanel>
+
+        </RelativePanel>
+
     </Grid>
 </Page>
