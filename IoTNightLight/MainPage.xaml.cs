@@ -68,8 +68,8 @@ namespace IoTNightLight
         {
             this.InitializeComponent();
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
-            Loaded += MainPage_Loaded;
-            Unloaded += MainPage_Unloaded;
+            Loaded             += MainPage_Loaded;
+            Unloaded           += MainPage_Unloaded;
 
             // Initialize GPIO and SPI
             InitAllAsync();
@@ -83,6 +83,7 @@ namespace IoTNightLight
             Goto(70);
         }
 
+
         public void Go()
         {
             Goto(int.Parse(MyTextBox.Text));
@@ -90,23 +91,23 @@ namespace IoTNightLight
 
         private void Goto(int percentage)
         {
-            var oldMin = 0;
-            var oldMax = 100;
-            var newMin = -90;
-            var newMax = 90;
-            var oldRange = (oldMax - oldMin);
-            var newRange = (newMax - newMin);
+            float oldMin = 0;
+            float oldMax = 100;
+            float newMin = -90;
+            float newMax = 90;
+            var oldRange = Math.Floor((oldMax - oldMin));
+            var newRange = Math.Floor((newMax - newMin));
             var newValue = (((percentage - oldMin) * newRange) / oldRange) + newMin;
 
             var storyboard = new Storyboard();
-            var animation = new DoubleAnimation
+            var animation  = new DoubleAnimation
             {
-                To = newValue,
-                Duration = TimeSpan.FromSeconds(.3),
+                To             = newValue,
+                Duration       = TimeSpan.FromSeconds(.3),
                 EasingFunction = new BounceEase
                 {
                     EasingMode = EasingMode.EaseOut,
-                    Bounces = 1,
+                    Bounces    = 1,
                     Bounciness = 5,
                 },
             };
