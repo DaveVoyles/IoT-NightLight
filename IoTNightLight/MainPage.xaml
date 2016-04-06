@@ -21,7 +21,7 @@
             </ScrollViewer>
         </StackPanel>
 
-        <!-- First panel --> 
+        <!-- First panel -->
         <RelativePanel>
             <controls:RingSegment x:Name="Ring" EndAngle="90" InnerRadius="75"
                               Radius="150" RelativePanel.AlignHorizontalCenterWithPanel="True"
@@ -56,6 +56,13 @@
                  RelativePanel.AlignVerticalCenterWith="Ring">
                 <TextBox x:Name="MyTextBox" />
                 <Button Content="Go" Click="{x:Bind Go}" />
+            </StackPanel>
+
+            <StackPanel>
+                <Button Content="Temp"  Click="Nav_To_Page" Height="49" Margin="20,235,-98,-284" Width="78" />
+                <Button Content="Light" Height="49" Margin="169,235,-247,-284" Width="78" />
+                <Button Content="Sound" Height="49" Margin="331,235,-409,-284" Width="78" />
+                <Button Content="Log" Height="49" Margin="467,235,-545,-284" Width="78" />
             </StackPanel>
 
         </RelativePanel>

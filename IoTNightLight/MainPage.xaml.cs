@@ -76,6 +76,22 @@ namespace IoTNightLight
         }
 
 
+        /* NAVIGATION
+         * ==========================================================*/
+
+        private void Nav_To__Temp_Page(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate((typeof(TempPage)), null);
+        }
+
+        private void Nav_To_Main_Page(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate((typeof(MainPage)), null);
+        }
+
+
+
+
 
 
         private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
