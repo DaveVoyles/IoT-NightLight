@@ -88,10 +88,11 @@ namespace IoTNightLight
         {
             this.Frame.Navigate((typeof(MainPage)), null);
         }
-        private void Nav_To_Light(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate((typeof(LightPage)), null);
-        }
+
+
+
+
+
 
         private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {

@@ -45,19 +45,19 @@ namespace SendCloudToDevice
                                           "/quit: Exits application" +
                                           "TODO: Insert commands from switch statement here");
                         break;
-
-                    case "/version":
-                        Console.WriteLine("This should be version.");
-                        break;
-
                     case "/quit":
                         quitNow = true;
                         break;
 
-                    case "temp":
+                    case "increase temp":
+                        Console.WriteLine("Increasing Temp");
                         //TODO: Create function to adjust GUI on client
                         break;
 
+                    case "decrease temp":
+                        Console.WriteLine("Decreasing Temp");
+                        //TODO: Create function to adjust GUI on client
+                        break;
                     case "light":
                        //TODO: Create function to adjust GUI on client
                         break;

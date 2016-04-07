@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock x:Name="StatusText" Text="Waiting for initialization" Margin="10,30,10,10" TextAlignment="Center" FontSize="26" />
             <TextBlock x:Name="textPlaceHolder" Text="N/A" Margin="10,50,10,10" TextAlignment="Center" FontSize="26" />
             <Rectangle x:Name="IndicatorBar" Height="20" Fill="LightGray" Width="300"/>
@@ -19,9 +19,10 @@
             <ScrollViewer>
                 <TextBlock x:Name="MessagesIn" Text="Input Log" Margin="10,10,10,10" TextAlignment="Center" Height="150" FontSize="16" />
             </ScrollViewer>
-        </StackPanel>
+        </StackPanel>-->
 
-        <RelativePanel>
+        <!-- First panel -->
+        <!--<RelativePanel>
             <controls:RingSegment x:Name="Ring" EndAngle="90" InnerRadius="75"
                               Radius="150" RelativePanel.AlignHorizontalCenterWithPanel="True"
                               RelativePanel.AlignVerticalCenterWithPanel="True" StartAngle="-90">
@@ -57,14 +58,14 @@
                 <Button Content="Go" Click="{x:Bind Go}" />
             </StackPanel>
 
-            <StackPanel>
+            --><!--<StackPanel>
                 <Button Content="Temp"  Click="Nav_To_Temp" Height="49" Margin="20,235,-98,-284" Width="78" />
                 <Button Content="Light" Click="Nav_To_Main"  Height="49" Margin="169,235,-247,-284" Width="78" />
                 <Button Content="Sound" Height="49" Margin="331,235,-409,-284" Width="78" />
                 <Button Content="Log" Height="49" Margin="467,235,-545,-284" Width="78" />
-            </StackPanel>
+            </StackPanel>--><!--
 
-        </RelativePanel>
+        </RelativePanel>-->
 
     </Grid>
 </Page>

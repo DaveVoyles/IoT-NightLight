@@ -20,12 +20,12 @@ namespace IoTNightLight
         /* NAVIGATION
          * ==========================================================*/
 
-        private void Nav_To__Temp_Page(object sender, RoutedEventArgs e)
+        private void Nav_To_Temp(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(TempPage)), null);
         }
 
-        private void Nav_To_Main_Page(object sender, RoutedEventArgs e)
+        private void Nav_To_Main(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(MainPage)), null);
         }
