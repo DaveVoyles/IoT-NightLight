@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using IoTNightLight.Msg;
 
 namespace IoTNightLight
 {
@@ -21,6 +14,9 @@ namespace IoTNightLight
     /// </summary>
     sealed partial class App : Application
     {
+
+        public string nameString;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -32,7 +28,21 @@ namespace IoTNightLight
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+
+            Msg.Messaging messenger       = new Msg.Messaging();
+            messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
         }
+
+
+
+        private void Messenger_MsgReceivedHandler(object sender, IoTHubArgs e)
+        {
+            // TODO: Add a function
+            // Raw text from message: e.Message  ex: Debug.WriteLine(e.Message);
+            Debug.WriteLine("MESSAGE RECEIVED: " + e.Message);
+        }
+
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

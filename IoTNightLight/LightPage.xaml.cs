@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Animation;
+using Microsoft.Azure.Devices.Client;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +18,8 @@ namespace IoTNightLight
         public LightPage()
         {
             this.InitializeComponent();
+            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            Loaded += Page_Loaded;
         }
 
      /* NAVIGATION
@@ -44,14 +39,8 @@ namespace IoTNightLight
             this.Frame.Navigate((typeof(LightPage)), null);
         }
 
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            Goto(70);
-        }
-
-
-
-
+        /* GAUGE
+         * ==========================================================*/
         public void Go()
         {
             Goto(int.Parse(MyTextBox.Text));
@@ -85,15 +74,103 @@ namespace IoTNightLight
             storyboard.Begin();
         }
 
-
+        /* PAGE SPECIFIC
+         * ==========================================================*/
         private void IncreaseLight()
         {
+            Goto(90);
         }
 
         private void DecreaseLight()
         {
-
+            Goto(10);
         }
+
+
+
+        /* PAGE LOAD / UNLOAD
+         * ==========================================================*/
+        private void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Goto(70);
+        }
+
+
+        /* MESSAGING
+       * ==========================================================*/
+        //private async Task ReceiveC2dAsync()
+        //{
+        //    MessagesIn.Text = ("\nReceiving cloud to device messages from service");
+        //    while (true)
+        //    {
+        //        try
+        //        {
+        //            Message receivedMessage = await deviceClient.ReceiveAsync();
+
+        //            if (receivedMessage == null) { continue; }
+
+        //            var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+        //            MessagesIn.Text = ("Received message: " + msg + " TIME: " + DateTime.Now.ToLocalTime().ToString());
+
+        //            switch (msg)
+        //            {
+        //                case "increase temp":
+        //                    IncreaseLight();
+        //                    break;
+        //                case "decrease temp":
+        //                    DecreaseLight();
+        //                    break;
+        //            }
+
+        //            await deviceClient.CompleteAsync(receivedMessage);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // UI updates must be invoked on the UI thread
+        //            var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+        //            {
+        //                MessagesIn.Text = "Sending message: " + ex.ToString() + "\n" + MessagesIn.Text;
+        //            });
+        //        }
+        //    }
+        //}
+
+
+        //private async Task SendMessageToIoTHubAsync(int darkness)
+        //{
+        //    try
+        //    {
+        //        var payload = "{\"deviceId\": \"" +
+        //            IOT_HUB_DEVICE +
+        //            "\", \"location\": \"" +
+        //            IOT_HUB_DEVICE_LOCATION +
+        //            "\", \"messurementValue\": " +
+        //            darkness +
+        //            ", \"messurementType\": \"darkness\", \"localTimestamp\": \"" +
+        //            DateTime.Now.ToLocalTime().ToString() +
+        //            "\"}";
+
+        //        // UI updates must be invoked on the UI thread
+        //        var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+        //        {
+        //            MessageLog.Text = "Sending message: " + payload + "\n" + MessageLog.Text;
+        //        });
+
+        //        var msg = new Message(Encoding.UTF8.GetBytes(payload));
+
+        //        await deviceClient.SendEventAsync(msg);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // UI updates must be invoked on the UI thread
+        //        var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+        //        {
+        //            MessageLog.Text = "Sending message: " + ex.Message + "\n" + MessageLog.Text;
+        //        });
+        //    }
+        //}
+
+
 
     }
 }

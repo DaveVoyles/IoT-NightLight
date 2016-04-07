@@ -37,31 +37,37 @@ namespace SendCloudToDevice
             Boolean quitNow = false;
             while (!quitNow)
             {
-                var command = Console.ReadLine();
+                var readLine = Console.ReadLine();
+                if (readLine == null) continue;
+                var command = readLine.ToLower();
+
                 switch (command)
                 {
                     case "help":
-                        Console.WriteLine("Possible commands: \n" +
-                                          "/quit: Exits application" +
-                                          "TODO: Insert commands from switch statement here");
+                        Console.WriteLine("POSSIBLE COMMANDS:      \n" +
+                                          "quit                    \n" +
+                                          "increase temp           \n" +
+                                          "decrease temp           \n" +
+                                          "increase light          \n"+ 
+                                          "decrease light          \n");
                         break;
-                    case "/quit":
+                    case "quit":
                         quitNow = true;
                         break;
-
                     case "increase temp":
                         Console.WriteLine("Increasing Temp");
                         //TODO: Create function to adjust GUI on client
                         break;
-
                     case "decrease temp":
                         Console.WriteLine("Decreasing Temp");
                         //TODO: Create function to adjust GUI on client
                         break;
-                    case "light":
-                       //TODO: Create function to adjust GUI on client
+                    case "increase light":
+                        //TODO: Create function to adjust GUI on client
                         break;
-
+                    case "decrease light":
+                        // TODO: Create a function on the client
+                        break;
                     default:
                         Console.WriteLine("Unknown Command: " + command);
                         break;
@@ -86,7 +92,7 @@ namespace SendCloudToDevice
                     };
 
                 await serviceClient.SendAsync(DEVICE_TO_RECEIVE_MSG, serviceMessage);
-                Console.WriteLine( cloudToDeviceMessage += $"Sent to Device ID: " + DEVICE_TO_RECEIVE_MSG +cloudToDeviceMessage + "\n");
+                Console.WriteLine( cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG +cloudToDeviceMessage + "\n");
                 await serviceClient.CloseAsync();
             }
             catch (Exception ex)
@@ -94,9 +100,6 @@ namespace SendCloudToDevice
                Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
             }
         }
-
-
-
 
 
 

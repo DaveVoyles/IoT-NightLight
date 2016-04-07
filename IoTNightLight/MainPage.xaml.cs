@@ -10,6 +10,7 @@ using System.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using IoTNightLight.Msg;
 using Microsoft.Azure.Devices.Client;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -28,15 +29,15 @@ namespace IoTNightLight
             MCP3208
         };
 
-        // used for http1 for DeviceClient.Create() (also called iotHubUri)
-        private const string IOT_HUB_HOST_NAME       = "dv-iot-labs.azure-devices.net";
-        // Use the device specific connection string here. Used for AMQPS and DeviceClient.CreateFromConnectionString()
-        private const string IOT_HUB_CONN_STRING     = "HostName=dv-iot-labs.azure-devices.net;DeviceId=rasp;SharedAccessKey=lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
-        // Use the name of your Azure IoT device here - this should be the same as the name in the connections string
-        private const string IOT_HUB_DEVICE          = "rasp";
-        // Provide a short description of the location of the device, such as 'Home Office' or 'Garage'
-        private const string IOT_HUB_DEVICE_LOCATION = "home-office";
-        private const string IOT_DEVICE_KEY          = "lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
+        //// used for http1 for DeviceClient.Create() (also called iotHubUri)
+        //private const string IOT_HUB_HOST_NAME       = "dv-iot-labs.azure-devices.net";
+        //// Use the device specific connection string here. Used for AMQPS and DeviceClient.CreateFromConnectionString()
+        //private const string IOT_HUB_CONN_STRING     = "HostName=dv-iot-labs.azure-devices.net;DeviceId=rasp;SharedAccessKey=lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
+        //// Use the name of your Azure IoT device here - this should be the same as the name in the connections string
+        //private const string IOT_HUB_DEVICE          = "rasp";
+        //// Provide a short description of the location of the device, such as 'Home Office' or 'Garage'
+        //private const string IOT_HUB_DEVICE_LOCATION = "home-office";
+        //private const string IOT_DEVICE_KEY          = "lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
 
         // Line 0 maps to physical pin 24 on the RPi2
         private const Int32 SPI_CHIP_SELECT_LINE = 0;
@@ -63,22 +64,23 @@ namespace IoTNightLight
         private Timer sendMessageTimer;
 
 
-
         public MainPage()
         {
             this.InitializeComponent();
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
-            Loaded             += MainPage_Loaded;
-            Unloaded           += MainPage_Unloaded;
-
+            Loaded             += Page_Loaded;
+            Unloaded           += Page_Unloaded;
+           
+            //Debug.WriteLine(myApp.nameString);
             // Initialize GPIO and SPI
-            InitAllAsync();
+            //InitAllAsync();
         }
+
+
 
 
         /* NAVIGATION
          * ==========================================================*/
-
         private void Nav_To_Temp(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(TempPage)), null);
@@ -88,17 +90,15 @@ namespace IoTNightLight
         {
             this.Frame.Navigate((typeof(MainPage)), null);
         }
+
         private void Nav_To_Light(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(LightPage)), null);
         }
 
-        private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            Goto(70);
-        }
 
-
+        /* GAUGE
+         * ==========================================================*/
         public void Go()
         {
             Goto(int.Parse(MyTextBox.Text));
@@ -110,6 +110,7 @@ namespace IoTNightLight
             float oldMax = 100;
             float newMin = -90;
             float newMax = 90;
+
             var oldRange = Math.Floor((oldMax - oldMin));
             var newRange = Math.Floor((newMax - newMin));
             var newValue = (((percentage - oldMin) * newRange) / oldRange) + newMin;
@@ -132,11 +133,28 @@ namespace IoTNightLight
             storyboard.Begin();
         }
 
+        /* PAGE SPECIFIC
+         * ==========================================================*/
+        private void IncreaseTemp()
+        {
+            Goto(90);
+        }
+
+        private void DecreaseTemp()
+        {
+            Goto(20);
+        }
 
 
 
+        /* PAGE LOAD / UNLOAD
+         * ==========================================================*/
+        private void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Goto(70);
+        }
 
-        private void MainPage_Unloaded(object sender, RoutedEventArgs e)
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             if (spiAdc != null)
             {
@@ -149,136 +167,124 @@ namespace IoTNightLight
             }
         }
 
-        private async Task InitAllAsync()
-        {
-            try
-            {
-                Task[] initTasks = { InitGpioAsync(), InitSpiAsync() };
-                await Task.WhenAll(initTasks);    
-            }
-            catch (Exception ex)
-            {
-                StatusText.Text = "EXCEPTION during InitAllAsync: " + ex.Message;
-                return;
-            }
 
-            // Read sensors every 100ms and refresh the UI
-            readSensorTimer = new Timer(this.SensorTimer_Tick, null, 0, 1500);
 
-             try
-             {
-                // Instantiate the Azure device client
-                //deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
+        ///* MESSAGING
+        // * ==========================================================*/
+        //private async Task ReceiveC2dAsync()
+        //{
+        //    MessagesIn.Text = ("\nReceiving cloud to device messages from service");
+        //    while (true)
+        //    {
+        //        try
+        //        {
+        //            Message receivedMessage = await deviceClient.ReceiveAsync();
 
-                // UWP can't use AMQPS, so need to override and define Http1 transport
-                deviceClient = DeviceClient.Create(IOT_HUB_HOST_NAME, AuthenticationMethodFactory
-                    .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
-            }
-            catch (Exception ex) 
-             {             
-                 Debug.Write("\n EXCEPTION: device client  " + ex.ToString() + "\n");
-             }
+        //            if (receivedMessage == null) { continue; }
 
-            // Send messages to Azure IoT Hub every 1.5 secs
-            sendMessageTimer = new Timer(this.MessageTimer_Tick, null, 0, 1500);
+        //            var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+        //            MessagesIn.Text = ("Received message: " + msg + " TIME: " + DateTime.Now.ToLocalTime().ToString());
 
-            StatusText.Text = "STATUS: Running";
-            await ReceiveC2dAsync();
-        }
 
-        private void MessageTimer_Tick(object state)
-        {
-            SendMessageToIoTHubAsync(adcValue);
-        }
+        //            await deviceClient.CompleteAsync(receivedMessage);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // UI updates must be invoked on the UI thread
+        //            var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+        //            {
+        //                MessagesIn.Text = "Sending message: " + ex.ToString() + "\n" + MessagesIn.Text;
+        //            });
+        //        }
+        //    }
+        //}
+
+
+        //private async Task SendMessageToIoTHubAsync(int darkness)
+        //{
+        //    try
+        //    {
+        //        var payload = "{\"deviceId\": \"" +
+        //            IOT_HUB_DEVICE +
+        //            "\", \"location\": \"" +
+        //            IOT_HUB_DEVICE_LOCATION +
+        //            "\", \"messurementValue\": " +
+        //            darkness +
+        //            ", \"messurementType\": \"darkness\", \"localTimestamp\": \"" +
+        //            DateTime.Now.ToLocalTime().ToString() +
+        //            "\"}";
+
+        //        // UI updates must be invoked on the UI thread
+        //        var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+        //        {
+        //            MessageLog.Text = "Sending message: " + payload + "\n" + MessageLog.Text;
+        //        });
+
+        //        var msg = new Message(Encoding.UTF8.GetBytes(payload));
+
+        //        await deviceClient.SendEventAsync(msg);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // UI updates must be invoked on the UI thread
+        //        var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+        //        {
+        //            MessageLog.Text = "Sending message: " + ex.Message + "\n" + MessageLog.Text;
+        //        });
+        //    }
+        //}
+
+
+
+
+        /* HARDWARE
+         * ==========================================================*/
+        //private async Task InitAllAsync()
+        //{
+        //    try
+        //    {
+        //        Task[] initTasks = { InitGpioAsync(), InitSpiAsync() };
+        //        await Task.WhenAll(initTasks);    
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        StatusText.Text = "EXCEPTION during InitAllAsync: " + ex.Message;
+        //        return;
+        //    }
+
+        //    // Read sensors every 100ms and refresh the UI
+        //    readSensorTimer = new Timer(this.SensorTimer_Tick, null, 0, 1500);
+
+        //     try
+        //     {
+        //        // Instantiate the Azure device client
+        //        //deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
+
+        //        // UWP can't use AMQPS, so need to override and define Http1 transport
+        //        deviceClient = DeviceClient.Create(IOT_HUB_HOST_NAME, AuthenticationMethodFactory
+        //            .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
+        //    }
+        //    catch (Exception ex) 
+        //     {             
+        //         Debug.Write("\n EXCEPTION: device client  " + ex.ToString() + "\n");
+        //     }
+
+        //    // Send messages to Azure IoT Hub every 1.5 secs
+        //    sendMessageTimer = new Timer(this.MessageTimer_Tick, null, 0, 1500);
+
+        //    StatusText.Text = "STATUS: Running";
+        //    await ReceiveC2dAsync();
+        //}
+
+        //private void MessageTimer_Tick(object state)
+        //{
+        //    SendMessageToIoTHubAsync(adcValue);
+        //}
 
         private void SensorTimer_Tick(object state)
         {
             ReadAdc();
             LightLed();
-        }
-
-
-        private async Task ReceiveC2dAsync()
-        {
-            MessagesIn.Text = ("\nReceiving cloud to device messages from service");
-            while (true)
-            {
-                try
-                {
-                    Message receivedMessage = await deviceClient.ReceiveAsync();
-
-                    if (receivedMessage == null) { continue; }
-
-                    var msg         = Encoding.ASCII.GetString(receivedMessage.GetBytes());
-                    MessagesIn.Text = ("Received message: " + msg + " TIME: " + DateTime.Now.ToLocalTime().ToString());
-
-                    switch (msg)
-                    {
-                        case "increase temp":
-                            IncreaseTemp();
-                            break;
-                        case "decrease temp":
-                            DecreaseTemp();
-                            break;
-                    }
-
-                    await deviceClient.CompleteAsync(receivedMessage);
-                }
-                catch (Exception ex)
-                {
-                    // UI updates must be invoked on the UI thread
-                    var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                    {
-                        MessagesIn.Text = "Sending message: " + ex.ToString() + "\n" + MessagesIn.Text;
-                    });
-                }
-            }
-        }
-
-
-        private async Task SendMessageToIoTHubAsync(int darkness)
-        {
-            try
-            {
-                var payload = "{\"deviceId\": \"" +
-                    IOT_HUB_DEVICE +
-                    "\", \"location\": \"" +
-                    IOT_HUB_DEVICE_LOCATION +
-                    "\", \"messurementValue\": " +
-                    darkness +
-                    ", \"messurementType\": \"darkness\", \"localTimestamp\": \"" +
-                    DateTime.Now.ToLocalTime().ToString() +
-                    "\"}";
-
-                // UI updates must be invoked on the UI thread
-                var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    MessageLog.Text = "Sending message: " + payload + "\n" + MessageLog.Text;
-                });
-
-                var msg = new Message(Encoding.UTF8.GetBytes(payload));
-
-                await deviceClient.SendEventAsync(msg);
-            }
-            catch (Exception ex)
-            {
-                // UI updates must be invoked on the UI thread
-                var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    MessageLog.Text = "Sending message: " + ex.Message + "\n" + MessageLog.Text;
-                });
-            }
-        }
-
-
-        private void IncreaseTemp()
-        {
-            Goto(90);
-        }
-
-        private void DecreaseTemp()
-        {
-            Goto(20);
         }
 
 
