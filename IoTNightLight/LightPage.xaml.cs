@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
-using Microsoft.Azure.Devices.Client;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -24,12 +21,10 @@ namespace IoTNightLight
 
      /* NAVIGATION
       * ==========================================================*/
-
         private void Nav_To_Temp(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(TempPage)), null);
         }
-
         private void Nav_To_Main(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(MainPage)), null);
@@ -37,6 +32,10 @@ namespace IoTNightLight
         private void Nav_To_Light(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(LightPage)), null);
+        }
+        private void Nav_To_Log(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate((typeof(LogPage)), null);
         }
 
         /* GAUGE

@@ -6,7 +6,6 @@ using Windows.Devices.Spi;
 using Windows.Devices.Enumeration;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -70,13 +69,21 @@ namespace IoTNightLight
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             Loaded             += Page_Loaded;
             Unloaded           += Page_Unloaded;
-           
-            //Debug.WriteLine(myApp.nameString);
+
             // Initialize GPIO and SPI
             //InitAllAsync();
+
+            var messenger = new Msg.Messaging();
+            messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
         }
 
 
+        private void Messenger_MsgReceivedHandler(object sender, IoTHubArgs e)
+        {
+            // TODO: Add a function
+            // Raw text from message: e.Message  ex: Debug.WriteLine(e.Message);
+            Debug.WriteLine("MESSAGE RECEIVED to MainPage: " + e.Message);
+        }
 
 
         /* NAVIGATION
@@ -85,15 +92,17 @@ namespace IoTNightLight
         {
             this.Frame.Navigate((typeof(TempPage)), null);
         }
-
         private void Nav_To_Main(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(MainPage)), null);
         }
-
         private void Nav_To_Light(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(LightPage)), null);
+        }
+        private void Nav_To_Log(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate((typeof(LogPage)), null);
         }
 
 
@@ -115,6 +124,11 @@ namespace IoTNightLight
             var newRange = Math.Floor((newMax - newMin));
             var newValue = (((percentage - oldMin) * newRange) / oldRange) + newMin;
 
+            createStoryboard(newValue);
+        }
+
+        private void createStoryboard(double newValue)
+        {
             var storyboard = new Storyboard();
             var animation  = new DoubleAnimation
             {
@@ -123,7 +137,7 @@ namespace IoTNightLight
                 EasingFunction = new BounceEase
                 {
                     EasingMode = EasingMode.EaseOut,
-                    Bounces    = 1,
+                    Bounces    = 3,
                     Bounciness = 5,
                 },
             };
@@ -143,6 +157,11 @@ namespace IoTNightLight
         private void DecreaseTemp()
         {
             Goto(20);
+        }
+
+        private void NavToLog()
+        {
+            this.Frame.Navigate((typeof(LogPage)), null);
         }
 
 
@@ -312,8 +331,8 @@ namespace IoTNightLight
             // UI updates must be invoked on the UI thread
             var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                textPlaceHolder.Text = adcValue.ToString();
-                IndicatorBar.Width = Map(adcValue, 0, adcResolution - 1, 0, 300);
+                //textPlaceHolder.Text = adcValue.ToString();
+                //IndicatorBar.Width = Map(adcValue, 0, adcResolution - 1, 0, 300);
             });
         }
 
@@ -390,7 +409,7 @@ namespace IoTNightLight
             // UI updates must be invoked on the UI thread
             var task = this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                IndicatorBar.Fill = fillColor;
+                //IndicatorBar.Fill = fillColor;
             });
         }
 

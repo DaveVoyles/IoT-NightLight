@@ -9,19 +9,12 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="StatusText" Text="Waiting for initialization" Margin="10,30,10,10" TextAlignment="Center" FontSize="26" />
-            <TextBlock x:Name="textPlaceHolder" Text="N/A" Margin="10,50,10,10" TextAlignment="Center" FontSize="26" />
-            <Rectangle x:Name="IndicatorBar" Height="20" Fill="LightGray" Width="300"/>
-            <ScrollViewer>
-                <TextBlock x:Name="MessageLog" Text="Message Log" Margin="10,50,10,10" TextAlignment="Center" Height="150" FontSize="16" />
-            </ScrollViewer>
-            <ScrollViewer>
-                <TextBlock x:Name="MessagesIn" Text="Input Log" Margin="10,10,10,10" TextAlignment="Center" Height="150" FontSize="16" />
-            </ScrollViewer>
-        </StackPanel>
-
-        <RelativePanel>
+        <TextBlock Text="Main Page" RelativePanel.AlignHorizontalCenterWithPanel="True" 
+                   RelativePanel.AlignTopWithPanel="true"
+                   HorizontalAlignment="Center"
+                   FontSize="34" />
+        <RelativePanel Margin="10,10,10,10">
+       
             <controls:RingSegment x:Name="Ring" EndAngle="90" InnerRadius="75"
                               Radius="150" RelativePanel.AlignHorizontalCenterWithPanel="True"
                               RelativePanel.AlignVerticalCenterWithPanel="True" StartAngle="-90">
@@ -56,14 +49,18 @@
                 <TextBox x:Name="MyTextBox" />
                 <Button Content="Go" Click="{x:Bind Go}" />
             </StackPanel>
-
-            <StackPanel>
-                <Button Content="Temp"  Click="Nav_To_Temp" Height="49" Margin="20,235,-98,-284" Width="78" />
-                <Button Content="Light" Click="Nav_To_Main"  Height="49" Margin="169,235,-247,-284" Width="78" />
-                <Button Content="Sound" Height="49" Margin="331,235,-409,-284" Width="78" />
-                <Button Content="Log" Height="49" Margin="467,235,-545,-284" Width="78" />
-            </StackPanel>
-
+            <Grid RelativePanel.AlignBottomWithPanel="true"  RelativePanel.AlignHorizontalCenterWithPanel="True" Padding="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Content="Temp"  Click="Nav_To_Temp" Grid.Column="0"  Height="49" Width="78" />
+                <Button Content="Light" Click="Nav_To_Light" Grid.Column="1" Height="49" Width="78" />
+                <Button Content="Sound" Click="Nav_To_Main" Height="49" Grid.Column="2"  Width="78" />
+                <Button Content="Log"   Click="Nav_To_Log" Height="49" Grid.Column="3" Width="78" />
+            </Grid>
         </RelativePanel>
 
     </Grid>

@@ -15,7 +15,7 @@ namespace SendCloudToDevice
         static DeviceClient deviceClient;
 
         private const string IOT_HUB_URI           = "dv-iot-labs.azure-devices.net";
-        private const string DEVICE_TO_RECEIVE_MSG = "rasp";
+        private const string DEVICE_TO_RECEIVE_MSG = "minwinpc";
         private const string NAME_OF_DEVICE        = "DeviceClient";
         private const string SHARED_ACCES_KEY      = "1q8HuqL0kPRZG9TAX62qBeCs88mOx1CAU7Jdsm5F9/E=";
         private const string IOT_HUB_CONN_STRING   = "HostName=dv-iot-labs.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=leERufTFaeRxPx7o9KN7w0Abc8Sl+Y6S11AkLo6iHFI=";
@@ -67,6 +67,9 @@ namespace SendCloudToDevice
                         break;
                     case "decrease light":
                         // TODO: Create a function on the client
+                        break;
+                    case "nav to log":
+                        Console.WriteLine("nav to log");
                         break;
                     default:
                         Console.WriteLine("Unknown Command: " + command);

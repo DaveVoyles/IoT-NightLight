@@ -11,9 +11,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Text="Temperature" RelativePanel.AlignHorizontalCenterWithPanel="True" 
                        RelativePanel.AlignTopWithPanel="true"
-                       FontSize="34" />
+                         HorizontalAlignment="Center"
+                         FontSize="34" />
         <RelativePanel Margin="10,10,10,10">
-
             <controls:RingSegment x:Name="Ring" EndAngle="90" InnerRadius="75"
                               Radius="150" RelativePanel.AlignHorizontalCenterWithPanel="True"
                               RelativePanel.AlignVerticalCenterWithPanel="True" StartAngle="-90">
@@ -57,12 +57,11 @@
                     <ColumnDefinition Width="20*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Button Content="Temp"  Click="Nav_To_Temp" Grid.Column="0"  Height="49" Width="78" />
-                <Button Content="Light" Click="Nav_To_Main" Grid.Column="1" Height="49" Width="78" />
-                <Button Content="Sound" Height="49" Grid.Column="2"  Width="78" />
-                <Button Content="Log" Height="49" Grid.Column="3" Width="78" />
+                <Button Content="Light" Click="Nav_To_Light" Grid.Column="1" Height="49" Width="78" />
+                <Button Content="Sound" Click="Nav_To_Main" Height="49" Grid.Column="2"  Width="78" />
+                <Button Content="Log"   Click="Nav_To_Log" Height="49" Grid.Column="3" Width="78" />
             </Grid>
         </RelativePanel>
-
 
     </Grid>
 </Page>
