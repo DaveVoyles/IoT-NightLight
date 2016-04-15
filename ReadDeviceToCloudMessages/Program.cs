@@ -5,7 +5,7 @@ using Microsoft.ServiceBus.Messaging;
 
 namespace ReadDeviceToCloudMessages
 {
-    /* Reads messages from Raspberry Pi which are sent to IoT hub */
+    /* Reads messages which are sent to IoT hub */
     class Program
     {
         static string connectionString  = "HostName=dv-iot-labs.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=leERufTFaeRxPx7o9KN7w0Abc8Sl+Y6S11AkLo6iHFI=";

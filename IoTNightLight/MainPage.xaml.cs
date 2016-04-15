@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
 using Windows.UI.Xaml.Controls;
 using Windows.Devices.Gpio;
 using Windows.Devices.Spi;
@@ -28,15 +29,15 @@ namespace IoTNightLight
             MCP3208
         };
 
-        //// used for http1 for DeviceClient.Create() (also called iotHubUri)
-        //private const string IOT_HUB_HOST_NAME       = "dv-iot-labs.azure-devices.net";
-        //// Use the device specific connection string here. Used for AMQPS and DeviceClient.CreateFromConnectionString()
-        //private const string IOT_HUB_CONN_STRING     = "HostName=dv-iot-labs.azure-devices.net;DeviceId=rasp;SharedAccessKey=lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
-        //// Use the name of your Azure IoT device here - this should be the same as the name in the connections string
-        //private const string IOT_HUB_DEVICE          = "rasp";
-        //// Provide a short description of the location of the device, such as 'Home Office' or 'Garage'
-        //private const string IOT_HUB_DEVICE_LOCATION = "home-office";
-        //private const string IOT_DEVICE_KEY          = "lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
+        // used for http1 for DeviceClient.Create() (also called iotHubUri)
+        private const string IOT_HUB_HOST_NAME = "dv-iot-labs.azure-devices.net";
+        // Use the device specific connection string here. Used for AMQPS and DeviceClient.CreateFromConnectionString()
+        private const string IOT_HUB_CONN_STRING = "HostName=dv-iot-labs.azure-devices.net;DeviceId=minwinpc;SharedAccessKey=EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
+        // Use the name of your Azure IoT device here - this should be the same as the name in the connections string
+        private const string IOT_HUB_DEVICE = "minwinpc";
+        // Provide a short description of the location of the device, such as 'Home Office' or 'Garage'
+        private const string IOT_HUB_DEVICE_LOCATION = "home-office";
+        private const string IOT_DEVICE_KEY = "EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
 
         // Line 0 maps to physical pin 24 on the RPi2
         private const Int32 SPI_CHIP_SELECT_LINE = 0;
@@ -62,6 +63,7 @@ namespace IoTNightLight
         private Timer readSensorTimer;
         private Timer sendMessageTimer;
 
+ 
 
         public MainPage()
         {
@@ -73,8 +75,44 @@ namespace IoTNightLight
             // Initialize GPIO and SPI
             //InitAllAsync();
 
-            var messenger = new Msg.Messaging();
-            messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
+
+            // TODO: WHY DO ONE VS THE OTHER?
+            // Init device client
+            //deviceClient = DeviceClient.Create(IOT_HUB_HOST_NAME, AuthenticationMethodFactory
+            //     .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
+
+            deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
+           receiveMsgTask();
+
+
+            //receiveMsg();
+
+            //var messenger = new Msg.Messaging();
+            //    messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
+        }
+
+        private static async Task receiveMsgTask()
+        {
+            while (true)
+            {
+                var msg =  await AzureIoTHub.ReceiveCloudToDeviceMessageAsync();
+                if (msg == null) continue;
+
+                Debug.WriteLine(msg);
+            }
+        }
+
+
+        private async void receiveMsg()
+        {
+
+            while (true)
+            {
+                Message receivedMessage = await deviceClient.ReceiveAsync();
+                var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+                var args = new IoTHubArgs(msg);
+                Debug.WriteLine(args);
+            }
         }
 
 
@@ -91,18 +129,22 @@ namespace IoTNightLight
         private void Nav_To_Temp(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(TempPage)), null);
+            Debug.WriteLine("Navigating to a new page");
         }
         private void Nav_To_Main(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(MainPage)), null);
+            Debug.WriteLine("Navigating to a new page");
         }
         private void Nav_To_Light(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(LightPage)), null);
+            Debug.WriteLine("Navigating to a new page");
         }
         private void Nav_To_Log(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate((typeof(LogPage)), null);
+            Debug.WriteLine("Navigating to a new page");
         }
 
 

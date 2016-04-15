@@ -9,7 +9,7 @@ using Message = Microsoft.Azure.Devices.Client.Message;
 
 namespace SendCloudToDevice
 {
-    /* Sends message from app directly to Rasp Pi via IoT Hub */
+    /* Sends message from  console app directly to Rasp Pi via IoT Hub */
     class Program
     {
         static DeviceClient deviceClient;

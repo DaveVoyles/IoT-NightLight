@@ -28,7 +28,7 @@ namespace IoTNightLight.Msg
         private const string IOT_HUB_HOST_NAME       = "dv-iot-labs.azure-devices.net";
         // Use the device specific connection string here. Used for AMQPS and DeviceClient.CreateFromConnectionString()
         //private const string IOT_HUB_CONN_STRING     = "HostName=dv-iot-labs.azure-devices.net;DeviceId=rasp;SharedAccessKey=lw2etOoYw0ST+h801OmfbSW7uzunNz6KTfCokdI6eKg=";
-        private const string IOT_HUB_CONN_STRING     = "HostName =dv-iot-labs.azure-devices.net;DeviceId=minwinpc;SharedAccessKey=EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
+        private const string IOT_HUB_CONN_STRING     = "HostName=dv-iot-labs.azure-devices.net;DeviceId=minwinpc;SharedAccessKey=EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
         // Use the name of your Azure IoT device here - this should be the same as the name in the connections string
         private const string IOT_HUB_DEVICE          = "minwinpc";
         // Provide a short description of the location of the device, such as 'Home Office' or 'Garage'

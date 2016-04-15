@@ -28,7 +28,7 @@ namespace IoTNightLight
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-
+            Debug.WriteLine("I am alive! [App.xaml.cs]");
 
             Msg.Messaging messenger       = new Msg.Messaging();
             messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
