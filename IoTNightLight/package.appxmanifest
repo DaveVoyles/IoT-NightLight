@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="4aa9ad63-2c12-4563-81d7-5e7cae9af651"
+    Name="fe43e110-fbb7-4621-a244-2b4c2ddc6c5b"
     Publisher="CN=Desktop"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="4aa9ad63-2c12-4563-81d7-5e7cae9af651" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="fe43e110-fbb7-4621-a244-2b4c2ddc6c5b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>IoTNightLight</DisplayName>

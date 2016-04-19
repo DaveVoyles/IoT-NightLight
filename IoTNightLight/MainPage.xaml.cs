@@ -201,11 +201,6 @@ namespace IoTNightLight
             Goto(20);
         }
 
-        private void NavToLog()
-        {
-            this.Frame.Navigate((typeof(LogPage)), null);
-        }
-
 
 
         /* PAGE LOAD / UNLOAD
@@ -219,7 +214,7 @@ namespace IoTNightLight
         {
             if (spiAdc != null)
             {
-                spiAdc.Dispose();
+                //spiAdc.Dispose();
             }
 
             if (redLedPin != null)
