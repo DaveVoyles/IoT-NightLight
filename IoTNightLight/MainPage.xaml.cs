@@ -75,23 +75,30 @@ namespace IoTNightLight
             // Initialize GPIO and SPI
             //InitAllAsync();
 
-
-            // TODO: WHY DO ONE VS THE OTHER?
+            // TODO: WHY DO ONE VS THE OTHER? They seem to have the same result either way
             // Init device client
-            //deviceClient = DeviceClient.Create(IOT_HUB_HOST_NAME, AuthenticationMethodFactory
-            //     .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
+            deviceClient = DeviceClient.Create(IOT_HUB_HOST_NAME, AuthenticationMethodFactory
+                 .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
 
-           deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
-           receiveMsgTask();
+            //deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
+            listenForMessageFromDeviceTask();
 
 
-            //receiveMsg();
+            // ---------------------
+            // Either of these can be used to receive messages from IoT Hub
 
             //var messenger = new Msg.Messaging();
             //    messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
+
+            //receiveMsg();
         }
 
-        private static async Task receiveMsgTask()
+
+        /// <summary>
+        /// Always listens for messages directly from console app
+        /// </summary>
+        /// <returns></returns>
+        private static async Task listenForMessageFromDeviceTask()
         {
             while (true)
             {
@@ -103,6 +110,9 @@ namespace IoTNightLight
         }
 
 
+        /// <summary>
+        /// Can be used to receive messages from IoT Hub
+        /// </summary>
         private async void receiveMsg()
         {
 
@@ -116,10 +126,14 @@ namespace IoTNightLight
         }
 
 
+        /// <summary>
+        /// Raw text from message: e.Message  ex: Debug.WriteLine(e.Message);
+        /// </summary>
+        /// <param name="sender">Who sent the message</param>
+        /// <param name="e">Contents of the message</param>
         private void Messenger_MsgReceivedHandler(object sender, IoTHubArgs e)
         {
             // TODO: Add a function
-            // Raw text from message: e.Message  ex: Debug.WriteLine(e.Message);
             Debug.WriteLine("MESSAGE RECEIVED to MainPage: " + e.Message);
         }
 
