@@ -32,6 +32,9 @@ namespace SendCloudToDevice
         }
 
 
+        /// <summary>
+        /// Possible caommands to send to IoT device. Will be turned into a function on the other end.
+        /// </summary>
         private static void ParseText()
         {
             Boolean quitNow = false;
@@ -80,6 +83,11 @@ namespace SendCloudToDevice
         }
 
 
+
+        /// <summary>
+        /// Can send messages directly to Raspberry Pi. Requests delivery acknowledgement from device upoen receipt. 
+        /// </summary>
+        /// <param name="cmd">String to pass to the IoT device, which will turn into a function upon receipt.</param>
         private static async void sendMessageToDevice(string cmd)
         {
             try
