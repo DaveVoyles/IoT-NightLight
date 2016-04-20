@@ -76,12 +76,8 @@ namespace IoTNightLight
             // Initialize GPIO and SPI
             //InitAllAsync();
 
-            // TODO: WHY DO ONE VS THE OTHER? They seem to have the same result either way
             // Init device client
-            deviceClient = DeviceClient.Create(IOT_HUB_HOST_NAME, AuthenticationMethodFactory
-                 .CreateAuthenticationWithRegistrySymmetricKey(IOT_HUB_DEVICE, IOT_DEVICE_KEY), TransportType.Http1);
-
-            //deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
+            deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
             listenForMessageFromDeviceTask();
 
 
