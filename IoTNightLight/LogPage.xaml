@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="10*"></ColumnDefinition>
                 <ColumnDefinition Width="10*"></ColumnDefinition>
                 <ColumnDefinition Width="10*"></ColumnDefinition>
-                <ColumnDefinition Width="10*"></ColumnDefinition>
+                <ColumnDefinition Width="10*"></ColumnDefinition> 
             </Grid.ColumnDefinitions>
             <Button Content="Temp"   Click="navHandler_OnClick" Height="49" Grid.Column="0"  Width="78" />
             <Button Content="Light"  Click="navHandler_OnClick" Height="49" Grid.Column="1"  Width="78" />

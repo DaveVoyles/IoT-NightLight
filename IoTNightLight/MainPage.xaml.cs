@@ -162,12 +162,12 @@ namespace IoTNightLight
 
         /* GAUGE
          * ==========================================================*/
-        public void Go()
+        private void Go()
         {
             Goto(int.Parse(MyTextBox.Text));
         }
 
-        private void Goto(int percentage)
+        public void Goto(int percentage)
         {
             float oldMin = 0;
             float oldMax = 100;
@@ -203,14 +203,14 @@ namespace IoTNightLight
 
         /* PAGE SPECIFIC
          * ==========================================================*/
-        private void IncreaseTemp()
+        private void IncreaseTemp(int val = 90)
         {
-            Goto(90);
+            Goto(val);
         }
 
-        private void DecreaseTemp()
+        private void DecreaseTemp(int val = 20)
         {
-            Goto(20);
+            Goto(val);
         }
 
 

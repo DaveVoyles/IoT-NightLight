@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System.Threading;
@@ -42,7 +44,9 @@ namespace SendCloudToDevice
             {
                 var readLine = Console.ReadLine();
                 if (readLine == null) continue;
-                var command = readLine.ToLower();
+
+                string command       = readLine.ToLower();
+                int  intInCommand    = GetValue(command);
 
                 switch (command)
                 {
@@ -58,7 +62,9 @@ namespace SendCloudToDevice
                         quitNow = true;
                         break;
                     case "increase temp":
-                        Console.WriteLine("Increasing Temp");
+                        Console.WriteLine("How much should we increase it by? \n" +
+                                          "Ex: 10" );
+                        sendMessageToDevice(command);
                         //TODO: Create function to adjust GUI on client
                         break;
                     case "decrease temp":
@@ -75,13 +81,33 @@ namespace SendCloudToDevice
                         Console.WriteLine("nav to log");
                         break;
                     default:
-                        Console.WriteLine("Unknown Command: " + command);
+                        sendMessageToDevice(command);
                         break;
                 }
-                sendMessageToDevice(command);
+
             }
         }
 
+
+        /// <summary>
+        /// Parses int from command str which is sent to IoT device for increase / decrease temp, etc.
+        /// </summary>
+        /// <param name="command">What do you want to the IoT device to do?</param>
+        /// <returns>Integer used to change values in IoT device</returns>
+        private static int GetValue(string command)
+        {
+            int intInCommand = 0;
+            string[] numbers = Regex.Split(command, @"\D");
+            foreach (string value in numbers)
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    int i = int.Parse(value);
+                    intInCommand = i;
+                }
+            }
+            return intInCommand;
+        }
 
 
         /// <summary>
