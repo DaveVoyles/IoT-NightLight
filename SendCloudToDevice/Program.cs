@@ -86,9 +86,10 @@ namespace SendCloudToDevice
 
         /// <summary>
         /// Can send messages directly to Raspberry Pi. Requests delivery acknowledgement from device upoen receipt. 
+        /// Also sends timestamp for debugging.
         /// </summary>
         /// <param name="cmd">String to pass to the IoT device, which will turn into a function upon receipt.</param>
-        private static async void sendMessageToDevice(string cmd)
+        private static async void sendDetailedMessageToDevice(string cmd)
         {
             try
             {
@@ -109,6 +110,30 @@ namespace SendCloudToDevice
             catch (Exception ex)
             {
                Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
+            }
+        }
+
+        private static async void sendMessageToDevice(string cmd)
+        {
+            try
+            {
+                var cloudToDeviceMessage = cmd;
+                ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
+
+                var serviceMessage =
+                    new Microsoft.Azure.Devices.Message(Encoding.ASCII.GetBytes(cloudToDeviceMessage))
+                    {
+                        Ack = DeliveryAcknowledgement.Full,
+                        MessageId = Guid.NewGuid().ToString()
+                    };
+
+                await serviceClient.SendAsync(DEVICE_TO_RECEIVE_MSG, serviceMessage);
+                Console.WriteLine(cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG + cloudToDeviceMessage + "\n");
+                await serviceClient.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
             }
         }
 

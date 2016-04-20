@@ -72,6 +72,7 @@ namespace IoTNightLight
             Loaded             += Page_Loaded;
             Unloaded           += Page_Unloaded;
 
+            //TODO: Uncomment this when hardware sensors are working
             // Initialize GPIO and SPI
             //InitAllAsync();
 
@@ -98,17 +99,57 @@ namespace IoTNightLight
         /// Always listens for messages directly from console app
         /// </summary>
         /// <returns></returns>
-        private static async Task listenForMessageFromDeviceTask()
+        private async Task listenForMessageFromDeviceTask()
         {
             while (true)
             {
                 var msg =  await AzureIoTHub.ReceiveCloudToDeviceMessageAsync();
                 if (msg == null) continue;
 
-                Debug.WriteLine(msg);
+                parseCommand(msg);
             }
         }
 
+
+        private void parseCommand(string msg)
+        {
+            switch (msg)
+            {
+                case "increase temp":
+                    Debug.WriteLine("Increasing Temp");
+                    //TODO: Create function to adjust GUI on client
+                    break;
+                case "decrease temp":
+                    Debug.WriteLine("Decreasing Temp");
+                    //TODO: Create function to adjust GUI on client
+                    break;
+                case "increase light":
+                    //TODO: Create function to adjust GUI on client
+                    break;
+                case "decrease light":
+                    // TODO: Create a function on the client
+                    break;
+                case "nav to log":
+                    Debug.WriteLine("navigating to log page");
+                    this.Frame.Navigate((typeof(LogPage)), null);
+                    break;
+                case "nav to temp":
+                    Debug.WriteLine("navigating to temp page");
+                    this.Frame.Navigate((typeof(TempPage)), null);
+                    break;
+                case "nav to main":
+                    Debug.WriteLine("navigating to main page");
+                    this.Frame.Navigate((typeof(MainPage)), null);
+                    break;
+                case "nav to light":
+                    Debug.WriteLine("navigating to light page");
+                    this.Frame.Navigate((typeof(LightPage)), null);
+                    break;
+                default:
+                    Debug.WriteLine("Unknown Command: " + msg);
+                    break;
+            }
+        }
 
         /// <summary>
         /// Can be used to receive messages from IoT Hub
