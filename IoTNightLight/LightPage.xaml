@@ -55,10 +55,10 @@
                     <ColumnDefinition Width="20*"></ColumnDefinition>
                     <ColumnDefinition Width="20*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Content="Temp"  Click="Nav_To_Temp" Grid.Column="0"  Height="49" Width="78" />
-                <Button Content="Light" Click="Nav_To_Light" Grid.Column="1" Height="49" Width="78" />
-                <Button Content="Sound" Click="Nav_To_Main" Height="49" Grid.Column="2"  Width="78" />
-                <Button Content="Log"   Click="Nav_To_Log" Height="49" Grid.Column="3" Width="78" />
+                <Button Content="Temp"   Click="navHandler_OnClick" Height="49" Grid.Column="0"  Width="78" />
+                <Button Content="Light"  Click="navHandler_OnClick" Height="49" Grid.Column="1"  Width="78" />
+                <Button Content="Sound"  Click="navHandler_OnClick" Height="49" Grid.Column="2"  Width="78" />
+                <Button Content="Log"    Click="navHandler_OnClick" Height="49" Grid.Column="3"  Width="78" />
             </Grid>
         </RelativePanel>
 

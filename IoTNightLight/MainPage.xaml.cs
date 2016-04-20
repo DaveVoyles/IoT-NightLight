@@ -107,6 +107,30 @@ namespace IoTNightLight
 
 
         /// <summary>
+        /// Get btn name & nav to correct page
+        /// </summary>
+        private void navHandler_OnClick(object sender, RoutedEventArgs e)
+        {
+            var content = (sender as Button).Content.ToString();
+            switch (content)
+            {
+                case "Temp":
+                    Globals.Nav_To_Temp(sender, e);
+                    break;
+                case "Light":
+                    Globals.Nav_To_Light(sender, e);
+                    break;
+                case "Sound":
+                    Globals.Nav_To_Main(sender, e);
+                    break;
+                case "Log":
+                    Globals.Nav_To_Log(sender, e);
+                    break;
+            }
+        }
+
+
+        /// <summary>
         /// Can be used to receive messages from IoT Hub
         /// </summary>
         private async void receiveMsg()
@@ -134,28 +158,6 @@ namespace IoTNightLight
         }
 
 
-        /* NAVIGATION
-         * ==========================================================*/
-        private void Nav_To_Temp(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate((typeof(TempPage)), null);
-            Debug.WriteLine("Navigating to a new page");
-        }
-        private void Nav_To_Main(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate((typeof(MainPage)), null);
-            Debug.WriteLine("Navigating to a new page");
-        }
-        private void Nav_To_Light(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate((typeof(LightPage)), null);
-            Debug.WriteLine("Navigating to a new page");
-        }
-        private void Nav_To_Log(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate((typeof(LogPage)), null);
-            Debug.WriteLine("Navigating to a new page");
-        }
 
 
         /* GAUGE
@@ -483,6 +485,7 @@ namespace IoTNightLight
                 throw new Exception("SPI initialization failed.", ex);
             }
         }
+
 
     }
 }

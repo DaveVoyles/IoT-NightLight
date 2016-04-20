@@ -28,23 +28,26 @@ namespace IoTNightLight
         }
 
 
-        /* NAVIGATION
-         * ==========================================================*/
-        private void Nav_To_Temp(object sender, RoutedEventArgs e)
+        private void navHandler_OnClick(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate((typeof(TempPage)), null);
+            var content = (sender as Button).Content.ToString();
+            switch (content)
+            {
+                case "Temp":
+                    Globals.Nav_To_Temp(sender, e);
+                    break;
+                case "Light":
+                    Globals.Nav_To_Light(sender, e);
+                    break;
+                case "Sound":
+                    Globals.Nav_To_Main(sender, e);
+                    break;
+                case "Log":
+                    Globals.Nav_To_Log(sender, e);
+                    break;
+            }
         }
-        private void Nav_To_Main(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate((typeof(MainPage)), null);
-        }
-        private void Nav_To_Light(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate((typeof(LightPage)), null);
-        }
-        private void Nav_To_Log(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate((typeof(LogPage)), null);
-        }
+
+
     }
 }

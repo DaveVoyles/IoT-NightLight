@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -55,6 +50,33 @@ namespace IoTNightLight
                     break;
             }
         }
+
+
+        /* NAVIGATION
+         * ==========================================================*/
+        public static void Nav_To_Temp(object sender, RoutedEventArgs e)
+        {
+            rootFrame.Navigate((typeof(TempPage)), null);
+            Debug.WriteLine("Navigating to a new page");
+        }
+        public static void Nav_To_Main(object sender, RoutedEventArgs e)
+        {
+            rootFrame.Navigate((typeof(MainPage)), null);
+            Debug.WriteLine("Navigating to a new page");
+        }
+        public static void Nav_To_Light(object sender, RoutedEventArgs e)
+        {
+            rootFrame.Navigate((typeof(LightPage)), null);
+            Debug.WriteLine("Navigating to a new page");
+        }
+        public static void Nav_To_Log(object sender, RoutedEventArgs e)
+        {
+            rootFrame.Navigate((typeof(LogPage)), null);
+            Debug.WriteLine("Navigating to a new page");
+        }
+
+
+
 
     }
 }
