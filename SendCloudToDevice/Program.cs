@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -30,14 +31,14 @@ namespace SendCloudToDevice
                               DEVICE_TO_RECEIVE_MSG);
             deviceClient = DeviceClient.Create(IOT_HUB_URI, new DeviceAuthenticationWithRegistrySymmetricKey(NAME_OF_DEVICE, SHARED_ACCES_KEY));
 
-            ParseText();
+            ParseConsoleMsg();
         }
 
 
         /// <summary>
         /// Possible caommands to send to IoT device. Will be turned into a function on the other end.
         /// </summary>
-        private static void ParseText()
+        private static void ParseConsoleMsg()
         {
             Boolean quitNow = false;
             while (!quitNow)
@@ -45,32 +46,37 @@ namespace SendCloudToDevice
                 var readLine = Console.ReadLine();
                 if (readLine == null) continue;
 
-                string command       = readLine.ToLower();
-                int  intInCommand    = GetValue(command);
+                string msg         = readLine.ToLower();
 
-                switch (command)
+
+                // TODO: Need to pull string from here and find out if it includes things like "increase temp"
+ 
+                int intInCommand  = GetIntVal(msg);
+                string newMsg     = stringValFromMsg(msg);
+
+
+                switch (newMsg)
                 {
                     case "help":
                         Console.WriteLine("POSSIBLE COMMANDS:      \n" +
                                           "quit                    \n" +
-                                          "increase temp           \n" +
-                                          "decrease temp           \n" +
-                                          "increase light          \n"+ 
+                                          "temp (int val)          \n" +
+                                          "increase light          \n" + 
                                           "decrease light          \n");
                         break;
                     case "quit":
                         quitNow = true;
                         break;
-                    case "increase temp":
-                        Console.WriteLine("How much should we increase it by? \n" +
-                                          "Ex: 10" );
-                        sendMessageToDevice(command);
-                        //TODO: Create function to adjust GUI on client
+                    // -----------------------------------
+                    case "temp 10":
                         break;
-                    case "decrease temp":
-                        Console.WriteLine("Decreasing Temp");
-                        //TODO: Create function to adjust GUI on client
+                    case "temp 30":
                         break;
+                    case "temp 70":
+                        break;
+                    case "temp 100":
+                        break;
+                    // ------------------------------------
                     case "increase light":
                         //TODO: Create function to adjust GUI on client
                         break;
@@ -80,33 +86,48 @@ namespace SendCloudToDevice
                     case "nav to log":
                         Console.WriteLine("nav to log");
                         break;
-                    default:
-                        sendMessageToDevice(command);
-                        break;
                 }
-
+                sendMessageToDevice(msg);
             }
+        }
+
+        private static string stringValFromMsg(string msg)
+        {
+            string[] separators = new string[] { ",", ".", "!", "\'", " ", "\'s" };
+            string text         = msg;
+            string newMsg       = "";
+
+            foreach (string word in text.Split(separators, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Console.WriteLine(word);
+
+                if (word.Contains("temp"))
+                {
+                    return newMsg;
+                }
+            }
+            return newMsg;
         }
 
 
         /// <summary>
-        /// Parses int from command str which is sent to IoT device for increase / decrease temp, etc.
+        /// Parses int from msg str which is sent to IoT device for increase / decrease temp, etc.
         /// </summary>
-        /// <param name="command">What do you want to the IoT device to do?</param>
+        /// <param name="msg">What do you want to the IoT device to do?</param>
         /// <returns>Integer used to change values in IoT device</returns>
-        private static int GetValue(string command)
+        private static int GetIntVal(string msg)
         {
-            int intInCommand = 0;
-            string[] numbers = Regex.Split(command, @"\D");
+            int intInMsg = 0;
+            string[] numbers = Regex.Split(msg, @"\D");
             foreach (string value in numbers)
             {
                 if (!string.IsNullOrEmpty(value))
                 {
                     int i = int.Parse(value);
-                    intInCommand = i;
+                    intInMsg = i;
                 }
             }
-            return intInCommand;
+            return intInMsg;
         }
 
 
@@ -130,7 +151,7 @@ namespace SendCloudToDevice
                     };
 
                 await serviceClient.SendAsync(DEVICE_TO_RECEIVE_MSG, serviceMessage);
-                Console.WriteLine( cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG +cloudToDeviceMessage + "\n");
+                Console.WriteLine( cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG + "\n");
                 await serviceClient.CloseAsync();
             }
             catch (Exception ex)
@@ -143,7 +164,7 @@ namespace SendCloudToDevice
         {
             try
             {
-                var cloudToDeviceMessage = cmd;
+                var cloudToDeviceMessage    = cmd;
                 ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
 
                 var serviceMessage =
@@ -154,7 +175,7 @@ namespace SendCloudToDevice
                     };
 
                 await serviceClient.SendAsync(DEVICE_TO_RECEIVE_MSG, serviceMessage);
-                Console.WriteLine(cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG + cloudToDeviceMessage + "\n");
+                Console.WriteLine(cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG + "\n");
                 await serviceClient.CloseAsync();
             }
             catch (Exception ex)

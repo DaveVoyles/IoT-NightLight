@@ -101,7 +101,7 @@ namespace IoTNightLight
                 var msg =  await AzureIoTHub.ReceiveCloudToDeviceMessageAsync();
                 if (msg == null) continue;
 
-                Globals.parseCommand(msg);
+                Globals.parseMsg(msg);
             }
         }
 
@@ -169,10 +169,10 @@ namespace IoTNightLight
 
         public void Goto(int percentage)
         {
-            float oldMin = 0;
+            float oldMin =   0;
             float oldMax = 100;
             float newMin = -90;
-            float newMax = 90;
+            float newMax =  90;
 
             var oldRange = Math.Floor((oldMax - oldMin));
             var newRange = Math.Floor((newMax - newMin));
@@ -200,19 +200,6 @@ namespace IoTNightLight
             storyboard.Children.Add(animation);
             storyboard.Begin();
         }
-
-        /* PAGE SPECIFIC
-         * ==========================================================*/
-        private void IncreaseTemp(int val = 90)
-        {
-            Goto(val);
-        }
-
-        private void DecreaseTemp(int val = 20)
-        {
-            Goto(val);
-        }
-
 
 
         /* PAGE LOAD / UNLOAD
