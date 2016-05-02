@@ -58,11 +58,11 @@ namespace SendCloudToDevice
                 switch (newMsg)
                 {
                     case "help":
-                        Console.WriteLine("POSSIBLE COMMANDS:      \n" +
-                                          "quit                    \n" +
-                                          "temp (int val)          \n" +
-                                          "increase light          \n" + 
-                                          "decrease light          \n");
+                        Console.WriteLine("POSSIBLE COMMANDS:       \n" +
+                                          "quit                     \n" +
+                                          "temp  (int val)          \n" +
+                                          "light (int val)          \n" + 
+                                          "nav to (page name)       \n");
                         break;
                     case "quit":
                         quitNow = true;
@@ -77,14 +77,26 @@ namespace SendCloudToDevice
                     case "temp 100":
                         break;
                     // ------------------------------------
-                    case "increase light":
-                        //TODO: Create function to adjust GUI on client
+                    case "light 10":
                         break;
-                    case "decrease light":
-                        // TODO: Create a function on the client
+                    case "light 30":
                         break;
+                    case "light 70":
+                        break;
+                    case "light 100":
+                        break;
+                    // ------------------------------------
                     case "nav to log":
                         Console.WriteLine("nav to log");
+                        break;
+                    case "nav to main":
+                        Console.WriteLine("nav to main");
+                        break;
+                    case "nav to temp":
+                        Console.WriteLine("nav to temp");
+                        break;
+                    case "nav to light":
+                        Console.WriteLine("nav to light");
                         break;
                 }
                 sendMessageToDevice(msg);

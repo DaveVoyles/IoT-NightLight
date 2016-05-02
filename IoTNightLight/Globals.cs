@@ -64,23 +64,26 @@ namespace IoTNightLight
                     mainPage.Goto(100);
                     break;
                 // ----------------------------------------
-                case "increase light":
-                    //TODO: Create function to adjust GUI on client
+                case "light 10":
                     break;
-                case "decrease light":
-                    // TODO: Create a function on the client
+                case "light 30":
                     break;
+                case "light 70":
+                    break;
+                case "light 100":
+                    break;
+                // ----------------------------------------
                 case "nav to log":
                     Debug.WriteLine("navigating to log page");
                     rootFrame.Navigate((typeof (LogPage)), null);
                     break;
+                case "nav to main":
+                    Debug.WriteLine("navigating to main page");
+                    rootFrame.Navigate((typeof(MainPage)), null);
+                    break;
                 case "nav to temp":
                     Debug.WriteLine("navigating to temp page");
                     rootFrame.Navigate((typeof (TempPage)), null);
-                    break;
-                case "nav to main":
-                    Debug.WriteLine("navigating to main page");
-                    rootFrame.Navigate((typeof (MainPage)), null);
                     break;
                 case "nav to light":
                     Debug.WriteLine("navigating to light page");
