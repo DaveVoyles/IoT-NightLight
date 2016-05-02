@@ -8,13 +8,19 @@ namespace IoTNightLight
 {
     public static class Globals
     {
-        private static Frame    rootFrame;
-        private static MainPage mainPage;
+        private static Frame     rootFrame;
+        private static MainPage  mainPage;
+        private static LightPage lightPage;
+        private static TempPage  tempPage;
+        private static LogPage   logPage;
 
         static Globals()
         {
             rootFrame = Window.Current.Content as Frame;
-            mainPage = new MainPage();
+            mainPage  = new MainPage();
+            lightPage = new LightPage();
+            tempPage  = new TempPage();
+            logPage   = new LogPage();
         }
 
 
