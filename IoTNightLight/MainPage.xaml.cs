@@ -78,8 +78,9 @@ namespace IoTNightLight
 
             // Init device client
             deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
-            listenForMessageFromDeviceTask();
 
+            // TODO: Prob only need this for app running locally (NOT on Pi)
+            listenForMessageFromDeviceTask();
 
             // ---------------------
             // Either of these can be used to receive messages from IoT Hub

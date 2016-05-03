@@ -24,11 +24,15 @@ namespace IoTNightLight
         }
 
 
+        /// <summary>
+        /// TODO: have this return a different value based on the string. Just demo right now
+        /// </summary>
+        /// <param name="msg"></param>
         private static string stringValFromMsg(string msg)
         {
             string[] separators = new string[] { ",", ".", "!", "\'", " ", "\'s" };
-            string text = msg;
-            string newMsg = "";
+            string text         = msg;
+            string newMsg       = "";
 
             foreach (string word in text.Split(separators, StringSplitOptions.RemoveEmptyEntries))
             {
@@ -55,6 +59,7 @@ namespace IoTNightLight
             {
                 case "temp 10":
                     Debug.WriteLine("temp 10");
+
                     mainPage.Goto(10);
                     break;
                 case "temp 30":
@@ -67,7 +72,8 @@ namespace IoTNightLight
                     break;
                 case "temp 100":
                     Debug.WriteLine("temp 100");
-                    mainPage.Goto(100);
+                    tempPage.Goto(100);
+                    //mainPage.Goto(100);
                     break;
                 // ----------------------------------------
                 case "light 10":
@@ -97,7 +103,6 @@ namespace IoTNightLight
                     break;
             }
         }
-
 
 
         /// <summary>

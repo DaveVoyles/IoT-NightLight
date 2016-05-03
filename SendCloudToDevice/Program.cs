@@ -129,13 +129,14 @@ namespace SendCloudToDevice
         /// <returns>Integer used to change values in IoT device</returns>
         private static int GetIntVal(string msg)
         {
-            int intInMsg = 0;
+            int intInMsg     = 0;
             string[] numbers = Regex.Split(msg, @"\D");
+
             foreach (string value in numbers)
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    int i = int.Parse(value);
+                    int i    = int.Parse(value);
                     intInMsg = i;
                 }
             }
@@ -195,9 +196,6 @@ namespace SendCloudToDevice
                 Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
             }
         }
-
-
-
         private static async void SendDeviceToCloudMessagesAsync()
         {
             double avgWindSpeed = 10; // m/s
@@ -221,6 +219,5 @@ namespace SendCloudToDevice
                 Thread.Sleep(1000);
             }
         }
-
     }
 }
