@@ -6,6 +6,15 @@ using Windows.UI.Xaml.Controls;
 
 namespace IoTNightLight
 {
+    // TODO: Probably don't need this anymore
+    public class currentPage
+    {
+        public static currentPage _mainPage  = new currentPage();
+        public static currentPage _lightPage = new currentPage();
+        public static currentPage _tempPage  = new currentPage();
+        public static currentPage _logPage   = new currentPage();
+    }
+
     public static class Globals
     {
         private static Frame     rootFrame;
@@ -14,13 +23,24 @@ namespace IoTNightLight
         private static TempPage  tempPage;
         private static LogPage   logPage;
 
+ 
+        //private static Frame tempPage = new Frame();
+
+        private static currentPage _currentPage;
+
         static Globals()
         {
+            // Grab window, then cast to specific page as necessary
             rootFrame = Window.Current.Content as Frame;
-            mainPage  = new MainPage();
-            lightPage = new LightPage();
-            tempPage  = new TempPage();
-            logPage   = new LogPage();
+            mainPage  = (MainPage )rootFrame.Content;
+
+            //lightPage = (LightPage)rootFrame.Content;
+            //if (tempPage == null) {
+            //    tempPage = (tempPage = new TempPage());
+            //}
+            //logPage   = (LogPage  )rootFrame.Content;
+
+            _currentPage = new currentPage();        
         }
 
 
@@ -57,10 +77,6 @@ namespace IoTNightLight
             string convertToString = intInMsg.ToString();
             object convertToObj    = (Object)convertToString;
 
-            var frame = (Frame)Window.Current.Content;
-            var page  = (MainPage)frame      .Content;
-
-
             switch (msg)
             {
                 // ---------------------------------------- TEMPERATURE
@@ -78,7 +94,7 @@ namespace IoTNightLight
                     break;
                 case "temp 100":
                     Debug.WriteLine("temp 100");
-                    page.Button_Click_1(convertToObj, new RoutedEventArgs());
+                    mainPage.Goto(100);
                     break;
                 // ---------------------------------------- LIGHT
                 case "light 10":
@@ -96,11 +112,13 @@ namespace IoTNightLight
                     break;
                 case "nav to main":
                     Debug.WriteLine("navigating to main page");
-                    rootFrame.Navigate((typeof(MainPage)), null);
+                    mainPage.ChangeTitleText("Main Page");
+                    //rootFrame.Navigate((typeof(MainPage)), null);
                     break;
                 case "nav to temp":
                     Debug.WriteLine("navigating to temp page");
-                    rootFrame.Navigate((typeof (TempPage)), null);
+                    mainPage.ChangeTitleText("Temperature");
+                    //rootFrame.Navigate((typeof (TempPage)), null);
                     break;
                 case "nav to light":
                     Debug.WriteLine("navigating to light page");

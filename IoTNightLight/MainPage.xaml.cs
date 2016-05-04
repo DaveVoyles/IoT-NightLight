@@ -110,20 +110,17 @@ namespace IoTNightLight
         }
 
 
+        public void ChangeTitleText(string newName)
+        {
+            NameBlock.Text = newName;
+        }
+
         public void Button_Click_1(object sender, RoutedEventArgs e)
         {
             MyTextBox.Text = "100";
             Goto(int.Parse(MyTextBox.Text));
         }
 
-        //Button_Click_1(btnTest, RoutedEventArgs());
-
-        private bool Yes;
-        //public Button getButton ()
-        //{
-        //    tempBtn = MyTextBox;
-        //    return tempBtn;
-        //}
     
         /// <summary>
         /// Get btn name & nav to correct page
