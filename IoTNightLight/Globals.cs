@@ -6,41 +6,17 @@ using Windows.UI.Xaml.Controls;
 
 namespace IoTNightLight
 {
-    // TODO: Probably don't need this anymore
-    public class currentPage
-    {
-        public static currentPage _mainPage  = new currentPage();
-        public static currentPage _lightPage = new currentPage();
-        public static currentPage _tempPage  = new currentPage();
-        public static currentPage _logPage   = new currentPage();
-    }
-
     public static class Globals
     {
         private static Frame     rootFrame;
         private static MainPage  mainPage;
-        private static LightPage lightPage;
-        private static TempPage  tempPage;
-        private static LogPage   logPage;
-
  
         //private static Frame tempPage = new Frame();
 
-        private static currentPage _currentPage;
-
         static Globals()
         {
-            // Grab window, then cast to specific page as necessary
             rootFrame = Window.Current.Content as Frame;
-            mainPage  = (MainPage )rootFrame.Content;
-
-            //lightPage = (LightPage)rootFrame.Content;
-            //if (tempPage == null) {
-            //    tempPage = (tempPage = new TempPage());
-            //}
-            //logPage   = (LogPage  )rootFrame.Content;
-
-            _currentPage = new currentPage();        
+            mainPage  = (MainPage )rootFrame.Content;     
         }
 
 
@@ -74,8 +50,6 @@ namespace IoTNightLight
         public static void parseMsg(string msg)
         {
             int    intInMsg        = GetIntVal(msg); //TODO: May not need this
-            string convertToString = intInMsg.ToString();
-            object convertToObj    = (Object)convertToString;
 
             switch (msg)
             {
@@ -98,31 +72,46 @@ namespace IoTNightLight
                     break;
                 // ---------------------------------------- LIGHT
                 case "light 10":
+                    mainPage.Goto(10);
                     break;
                 case "light 30":
+                    mainPage.Goto(30);
                     break;
                 case "light 70":
+                    mainPage.Goto(70);
                     break;
                 case "light 100":
+                    mainPage.Goto(100);
+                    break;
+                // ---------------------------------------- Moisture
+                case "moisture 10":
+                    mainPage.Goto(10);
+                    break;
+                case "moisture 30":
+                    mainPage.Goto(30);
+                    break;
+                case "moisture 70":
+                    mainPage.Goto(70);
+                    break;
+                case "moisture 100":
+                    mainPage.Goto(100);
                     break;
                 // ---------------------------------------- NAVIGATION
                 case "nav to log":
                     Debug.WriteLine("navigating to log page");
-                    rootFrame.Navigate((typeof (LogPage)), null);
+                    mainPage.ChangeTitleText("Log");
                     break;
-                case "nav to main":
+                case "nav to Moisture":
                     Debug.WriteLine("navigating to main page");
-                    mainPage.ChangeTitleText("Main Page");
-                    //rootFrame.Navigate((typeof(MainPage)), null);
+                    mainPage.ChangeTitleText("Moisture Page");
                     break;
                 case "nav to temp":
                     Debug.WriteLine("navigating to temp page");
                     mainPage.ChangeTitleText("Temperature");
-                    //rootFrame.Navigate((typeof (TempPage)), null);
                     break;
                 case "nav to light":
                     Debug.WriteLine("navigating to light page");
-                    rootFrame.Navigate((typeof (LightPage)), null);
+                    mainPage.ChangeTitleText("Light");
                     break;
             }
         }
