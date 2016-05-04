@@ -147,25 +147,29 @@ namespace IoTNightLight
         public static void Nav_To_Temp(object sender, RoutedEventArgs e)
         {
             rootFrame.Navigate((typeof (TempPage)), null);
-            Debug.WriteLine("Navigating to a new page");
+            mainPage.ChangeTitleText("Temperature");
+            //Debug.WriteLine("Navigating to a new page");
         }
 
         public static void Nav_To_Main(object sender, RoutedEventArgs e)
         {
             rootFrame.Navigate((typeof (MainPage)), null);
-            Debug.WriteLine("Navigating to a new page");
+            mainPage.ChangeTitleText("Moisture");
+            //Debug.WriteLine("Navigating to a new page");
         }
 
         public static void Nav_To_Light(object sender, RoutedEventArgs e)
         {
-            rootFrame.Navigate((typeof (LightPage)), null);
-            Debug.WriteLine("Navigating to a new page");
+            rootFrame.Navigate((typeof(LightPage)), null);
+            mainPage.ChangeTitleText("Light");
+            //Debug.WriteLine("Navigating to a new page");
         }
 
         public static void Nav_To_Log(object sender, RoutedEventArgs e)
         {
             rootFrame.Navigate((typeof (LogPage)), null);
-            Debug.WriteLine("Navigating to a new page");
+            mainPage.ChangeTitleText("Log");
+            //Debug.WriteLine("Navigating to a new page");
         }
 
     }

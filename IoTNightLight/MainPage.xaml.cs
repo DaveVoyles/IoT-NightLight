@@ -104,8 +104,6 @@ namespace IoTNightLight
                 if (msg == null) continue;
 
                 Globals.parseMsg(msg);
-                //var btnTest = new object();
-                //Button_Click_1(btnTest, new RoutedEventArgs());
             }
         }
 

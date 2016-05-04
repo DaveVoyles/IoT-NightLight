@@ -27,10 +27,10 @@
                 <ColumnDefinition Width="10*"></ColumnDefinition>
                 <ColumnDefinition Width="10*"></ColumnDefinition> 
             </Grid.ColumnDefinitions>
-            <Button Content="Temp"   Click="navHandler_OnClick" Height="49" Grid.Column="0"  Width="78" />
-            <Button Content="Light"  Click="navHandler_OnClick" Height="49" Grid.Column="1"  Width="78" />
-            <Button Content="Sound"  Click="navHandler_OnClick" Height="49" Grid.Column="2"  Width="78" />
-            <Button Content="Log"    Click="navHandler_OnClick" Height="49" Grid.Column="3"  Width="78" />
+            <Button Content="Temp"      Click="navHandler_OnClick" Height="49" Grid.Column="0"  Width="78" />
+            <Button Content="Light"     Click="navHandler_OnClick" Height="49" Grid.Column="1"  Width="78" />
+            <Button Content="Moisture"  Click="navHandler_OnClick" Height="49" Grid.Column="2"  Width="78" />
+            <Button Content="Log"       Click="navHandler_OnClick" Height="49" Grid.Column="3"  Width="78" />
         </Grid>
 
     </Grid>
