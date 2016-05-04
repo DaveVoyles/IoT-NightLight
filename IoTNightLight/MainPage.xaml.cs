@@ -11,6 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using IoTNightLight.Msg;
+using Microsoft.Azure.Amqp.Framing;
 using Microsoft.Azure.Devices.Client;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -103,10 +104,27 @@ namespace IoTNightLight
                 if (msg == null) continue;
 
                 Globals.parseMsg(msg);
+                //var btnTest = new object();
+                //Button_Click_1(btnTest, new RoutedEventArgs());
             }
         }
 
 
+        public void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MyTextBox.Text = "100";
+            Goto(int.Parse(MyTextBox.Text));
+        }
+
+        //Button_Click_1(btnTest, RoutedEventArgs());
+
+        private bool Yes;
+        //public Button getButton ()
+        //{
+        //    tempBtn = MyTextBox;
+        //    return tempBtn;
+        //}
+    
         /// <summary>
         /// Get btn name & nav to correct page
         /// </summary>

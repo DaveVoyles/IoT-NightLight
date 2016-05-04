@@ -46,7 +46,7 @@
                  RelativePanel.AlignHorizontalCenterWith="Ring"
                  RelativePanel.AlignVerticalCenterWith="Ring">
                 <TextBox x:Name="MyTextBox" />
-                <Button Content="Go" Click="{x:Bind Go}" />
+                <Button x:Name="ValBtn" Content="Go" Click="{x:Bind Go}" />
             </StackPanel>
             <Grid RelativePanel.AlignBottomWithPanel="true"  RelativePanel.AlignHorizontalCenterWithPanel="True" Padding="0,0,0,10">
                 <Grid.ColumnDefinitions>

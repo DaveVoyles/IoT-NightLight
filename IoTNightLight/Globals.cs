@@ -53,7 +53,13 @@ namespace IoTNightLight
         /// <param name="msg">Command sent from console app</param>
         public static void parseMsg(string msg)
         {
-            int intInMsg = GetIntVal(msg); //TODO: May not need this
+            int intInMsg        = GetIntVal(msg); //TODO: May not need this
+            var convertToString = intInMsg.ToString();
+            var convertToObj    = (Object) convertToString;
+
+            var frame = (Frame)Window.Current.Content;
+            var page  = (MainPage)frame.Content;
+
 
             switch (msg)
             {
@@ -72,8 +78,7 @@ namespace IoTNightLight
                     break;
                 case "temp 100":
                     Debug.WriteLine("temp 100");
-                    tempPage.Goto(100);
-                    //mainPage.Goto(100);
+                    page.Button_Click_1(convertToObj, new RoutedEventArgs());
                     break;
                 // ----------------------------------------
                 case "light 10":
