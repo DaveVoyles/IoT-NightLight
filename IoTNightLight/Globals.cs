@@ -53,19 +53,19 @@ namespace IoTNightLight
         /// <param name="msg">Command sent from console app</param>
         public static void parseMsg(string msg)
         {
-            int intInMsg        = GetIntVal(msg); //TODO: May not need this
-            var convertToString = intInMsg.ToString();
-            var convertToObj    = (Object) convertToString;
+            int    intInMsg        = GetIntVal(msg); //TODO: May not need this
+            string convertToString = intInMsg.ToString();
+            object convertToObj    = (Object)convertToString;
 
             var frame = (Frame)Window.Current.Content;
-            var page  = (MainPage)frame.Content;
+            var page  = (MainPage)frame      .Content;
 
 
             switch (msg)
             {
+                // ---------------------------------------- TEMPERATURE
                 case "temp 10":
                     Debug.WriteLine("temp 10");
-
                     mainPage.Goto(10);
                     break;
                 case "temp 30":
@@ -80,7 +80,7 @@ namespace IoTNightLight
                     Debug.WriteLine("temp 100");
                     page.Button_Click_1(convertToObj, new RoutedEventArgs());
                     break;
-                // ----------------------------------------
+                // ---------------------------------------- LIGHT
                 case "light 10":
                     break;
                 case "light 30":
@@ -89,7 +89,7 @@ namespace IoTNightLight
                     break;
                 case "light 100":
                     break;
-                // ----------------------------------------
+                // ---------------------------------------- NAVIGATION
                 case "nav to log":
                     Debug.WriteLine("navigating to log page");
                     rootFrame.Navigate((typeof (LogPage)), null);
