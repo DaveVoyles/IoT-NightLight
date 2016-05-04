@@ -201,12 +201,12 @@ namespace IoTNightLight
             var animation  = new DoubleAnimation
             {
                 To             = newValue,
-                Duration       = TimeSpan.FromSeconds(.3),
+                Duration       = TimeSpan.FromSeconds(3),
                 EasingFunction = new BounceEase
                 {
                     EasingMode = EasingMode.EaseOut,
                     Bounces    = 3,
-                    Bounciness = 5,
+                    Bounciness = 8,
                 },
             };
             Storyboard.SetTarget(animation, ArrowTransform);
