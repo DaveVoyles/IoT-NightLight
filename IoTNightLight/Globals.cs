@@ -10,8 +10,6 @@ namespace IoTNightLight
     {
         private static Frame     rootFrame;
         private static MainPage  mainPage;
- 
-        //private static Frame tempPage = new Frame();
 
         static Globals()
         {
@@ -139,37 +137,26 @@ namespace IoTNightLight
         }
 
 
-
-
         /* NAVIGATION
          * ==========================================================*/
-
         public static void Nav_To_Temp(object sender, RoutedEventArgs e)
         {
-            rootFrame.Navigate((typeof (TempPage)), null);
             mainPage.ChangeTitleText("Temperature");
-            //Debug.WriteLine("Navigating to a new page");
         }
 
         public static void Nav_To_Main(object sender, RoutedEventArgs e)
         {
-            rootFrame.Navigate((typeof (MainPage)), null);
             mainPage.ChangeTitleText("Moisture");
-            //Debug.WriteLine("Navigating to a new page");
         }
 
         public static void Nav_To_Light(object sender, RoutedEventArgs e)
         {
-            rootFrame.Navigate((typeof(LightPage)), null);
             mainPage.ChangeTitleText("Light");
-            //Debug.WriteLine("Navigating to a new page");
         }
 
         public static void Nav_To_Log(object sender, RoutedEventArgs e)
         {
-            rootFrame.Navigate((typeof (LogPage)), null);
             mainPage.ChangeTitleText("Log");
-            //Debug.WriteLine("Navigating to a new page");
         }
 
     }
