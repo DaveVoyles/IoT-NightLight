@@ -10,11 +10,11 @@ namespace IoTNightLight
     {
         private static Frame     rootFrame;
         private static MainPage  mainPage;
-
+        
         static Globals()
         {
             rootFrame = Window.Current.Content as Frame;
-            mainPage  = (MainPage )rootFrame.Content;     
+            mainPage  = (MainPage)rootFrame.Content;     
         }
 
 
@@ -99,7 +99,7 @@ namespace IoTNightLight
                     Debug.WriteLine("navigating to log page");
                     mainPage.ChangeTitleText("Log");
                     break;
-                case "nav to Moisture":
+                case "nav to moisture":
                     Debug.WriteLine("navigating to main page");
                     mainPage.ChangeTitleText("Moisture Page");
                     break;
