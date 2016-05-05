@@ -64,6 +64,7 @@ namespace IoTNightLight
         private Timer readSensorTimer;
         private Timer sendMessageTimer;
 
+        // Placeholder values for tweening gauge
         private DispatcherTimer timer;
         private int numOfTicks;
         private int timerDelay;
@@ -94,12 +95,6 @@ namespace IoTNightLight
             //    messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
 
             //receiveMsg();
-
-            //timerIn_MS     = 5000;
-            //timer          = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(timerIn_MS)};
-            //timer.Tick    += Timer_Tick;
-
-            Tick();
         }
 
 
@@ -181,21 +176,22 @@ namespace IoTNightLight
 
 
         /// <summary>
-        /// TODO: Not working for some reason 
+        /// Tweens gauge on the page back-and-forth between two values
         /// </summary>
-        public async void Tick()
+        /// <param name="valOne">Initial val</param>
+        /// <param name="valTwo">Final val</param>
+        /// <param name="numOfTweens">How many times should it tween between both vals?</param>
+        /// <param name="delay">Delay between tweening</param>
+        public async void TweenGauge(int valOne, int valTwo, int numOfTweens, int delay)
         {
-            numOfTicks = 0;
-            var valOne = 100;
-            var valTwo =  90;
-     
-            while (numOfTicks < 8)
+            var tweenIndex = 0;
+            while (tweenIndex < numOfTweens)
             {
                 Goto(valOne);
-                await Task.Delay(TimeSpan.FromSeconds(1));
+                await Task.Delay(TimeSpan.FromSeconds(delay));
                 Goto(valTwo);
-                numOfTicks++;
-                await Task.Delay(TimeSpan.FromSeconds(1));
+                tweenIndex++;
+                await Task.Delay(TimeSpan.FromSeconds(delay));
             }
             Debug.WriteLine("Exiting Tick");
         }

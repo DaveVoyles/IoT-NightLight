@@ -51,6 +51,9 @@ namespace IoTNightLight
 
             switch (msg)
             {
+                case "tween":
+                    //TODO: Insert tweening value
+                    break;
                 // ---------------------------------------- TEMPERATURE
                 case "temp 10":
                     Debug.WriteLine("temp 10");
