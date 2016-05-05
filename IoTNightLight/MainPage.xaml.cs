@@ -119,18 +119,14 @@ namespace IoTNightLight
         }
 
 
+        /// <summary>
+        /// Change title text from console app, rahter than navigating between XAML pages
+        /// </summary>
+        /// <param name="newName">What should we call this new "page"?</param>
         public void ChangeTitleText(string newName)
         {
             NameBlock.Text = newName;
         }
-
-        public void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            MyTextBox.Text = "100";
-            Goto(int.Parse(MyTextBox.Text));
-        }
-
-
 
 
         /* NAVIGATION
