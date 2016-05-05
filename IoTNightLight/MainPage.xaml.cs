@@ -68,7 +68,6 @@ namespace IoTNightLight
         private int numOfTicks;
         private int timerDelay;
         private int timerIn_MS;
-        private DateTime dateTime;
  
 
         public MainPage()
@@ -100,8 +99,7 @@ namespace IoTNightLight
             //timer          = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(timerIn_MS)};
             //timer.Tick    += Timer_Tick;
 
-            dateTime = new DateTime();
-           Tick();
+            Tick();
         }
 
 
@@ -189,23 +187,15 @@ namespace IoTNightLight
         {
             numOfTicks = 0;
             var valOne = 100;
-            var valTwo = 30;
-            var valThr = 80;
+            var valTwo =  90;
+     
             while (numOfTicks < 8)
             {
-                Debug.WriteLine("startnig over at: " + DateTime.Now);
-                Debug.WriteLine("Going to: " + valOne );
                 Goto(valOne);
-                Debug.WriteLine("Waiting 2 seconds");
-                await Task.Delay(TimeSpan.FromSeconds(1.5));
-                Debug.WriteLine("Going to: " + valTwo);
+                await Task.Delay(TimeSpan.FromSeconds(1));
                 Goto(valTwo);
                 numOfTicks++;
-                Debug.WriteLine("num of ticks: " + numOfTicks);
-                Debug.WriteLine("after tick: " + DateTime.Now);
-                await Task.Delay(TimeSpan.FromSeconds(1.5));
-                Debug.WriteLine("Going to: " + valThr);
-                Goto(valThr);
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
             Debug.WriteLine("Exiting Tick");
         }
@@ -254,7 +244,7 @@ namespace IoTNightLight
             var animation  = new DoubleAnimation
             {
                 To             = newValue,
-                Duration       = TimeSpan.FromSeconds(1),
+                Duration       = TimeSpan.FromSeconds(.7),
                 EasingFunction = new BounceEase
                 {
                     EasingMode = EasingMode.EaseOut,
