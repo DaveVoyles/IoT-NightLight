@@ -68,7 +68,7 @@ namespace IoTNightLight
         private int numOfTicks;
         private int timerDelay;
         private int timerIn_MS;
-
+        private DateTime dateTime;
  
 
         public MainPage()
@@ -100,6 +100,7 @@ namespace IoTNightLight
             //timer          = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(timerIn_MS)};
             //timer.Tick    += Timer_Tick;
 
+            dateTime = new DateTime();
            Tick();
         }
 
@@ -180,34 +181,50 @@ namespace IoTNightLight
         }
 
 
+
+        /// <summary>
+        /// TODO: Not working for some reason 
+        /// </summary>
         public async void Tick()
         {
             numOfTicks = 0;
-            while (numOfTicks < 3)
+            var valOne = 100;
+            var valTwo = 30;
+            var valThr = 80;
+            while (numOfTicks < 8)
             {
-                Debug.WriteLine("Going to 100");
-                Goto(100);
+                Debug.WriteLine("startnig over at: " + DateTime.Now);
+                Debug.WriteLine("Going to: " + valOne );
+                Goto(valOne);
                 Debug.WriteLine("Waiting 2 seconds");
-                await Task.Delay(TimeSpan.FromSeconds(2));
-                Debug.WriteLine("Going to 90");
-                Goto(90);
+                await Task.Delay(TimeSpan.FromSeconds(1.5));
+                Debug.WriteLine("Going to: " + valTwo);
+                Goto(valTwo);
                 numOfTicks++;
                 Debug.WriteLine("num of ticks: " + numOfTicks);
+                Debug.WriteLine("after tick: " + DateTime.Now);
+                await Task.Delay(TimeSpan.FromSeconds(1.5));
+                Debug.WriteLine("Going to: " + valThr);
+                Goto(valThr);
             }
             Debug.WriteLine("Exiting Tick");
         }
 
-        public async void Timer_Tick(object sender, object e)
-        {
-            numOfTicks = 3;
-            while (numOfTicks <= 3)
-            {
-                Goto(100);
-                await Task.Delay(TimeSpan.FromSeconds(3));
-                Goto(90);
-                numOfTicks++;
-            }
-        }
+
+        /// <summary>
+        /// TODO: Unused timer
+        /// </summary>
+        //public async void Timer_Tick(object sender, object e)
+        //{
+        //    numOfTicks = 3;
+        //    while (numOfTicks <= 3)
+        //    {
+        //        Goto(100);
+        //        await Task.Delay(TimeSpan.FromSeconds(5));
+        //        Goto(90);
+        //        numOfTicks++;
+        //    }
+        //}
 
 
         /* GAUGE
@@ -249,6 +266,7 @@ namespace IoTNightLight
             Storyboard.SetTargetProperty(animation, "Rotation");
             storyboard.Children.Add(animation);
             storyboard.Begin();
+            Debug.WriteLine("Beginning storyboard");
         }
 
 
