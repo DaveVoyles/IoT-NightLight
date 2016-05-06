@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.Globalization.Collation;
 using Windows.UI.Xaml;
@@ -19,36 +21,15 @@ namespace IoTNightLight
         }
 
 
-        /// <summary>
-        /// TODO: have this return a different value based on the string. Just demo right now
-        /// </summary>
-        /// <param name="msg"></param>
-        private static string stringValFromMsg(string msg)
-        {
-            string[] separators = new string[] { ",", ".", "!", "\'", " ", "\'s" };
-            string text         = msg;
-            string newMsg       = "";
-
-            foreach (string word in text.Split(separators, StringSplitOptions.RemoveEmptyEntries))
-            {
-                Debug.WriteLine(word);
-
-                if (word.Contains("temp"))
-                {
-                    return newMsg;
-                }
-            }
-            return newMsg;
-        }
-
 
         /// <summary>
-        /// Interpreets commands from console app and relays to the correct function
+        /// Interprets commands from console app and relays to the correct function
         /// </summary>
         /// <param name="msg">Command sent from console app</param>
         public static void parseMsg(string msg)
         {
-            int    intInMsg        = GetIntVal(msg); //TODO: May not need this
+            List<int> list = getIntValList(msg);
+            Debug.WriteLine(list);
 
             switch (msg)
             {
@@ -119,6 +100,9 @@ namespace IoTNightLight
         }
 
 
+        /* Parsing
+         * ==========================================================*/
+
         /// <summary>
         /// Parses int from msg str which is sent to IoT device for increase / decrease temp, etc.
         /// </summary>
@@ -138,6 +122,42 @@ namespace IoTNightLight
                 }
             }
             return intInMsg;
+        }
+
+
+        /// <summary>
+        /// Parses the string from console message and grabs the Ints and stores as a list.
+        /// </summary>
+        /// <param name="msg">String sent from console app</param>
+        /// <returns>List of integers that can be applied as parameters to functions</returns>
+        private static List<int> getIntValList(string msg)
+        {
+            string[] numbers = Regex.Split(msg, @"\D");
+
+            return (from value in numbers where !string.IsNullOrEmpty(value) select int.Parse(value)).ToList();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg">String sent from console app</param>
+        private static string stringValFromMsg(string msg)
+        {
+            string[] separators = new string[] { ",", ".", "!", "\'", " ", "\'s" };
+            string text         = msg;
+            string newMsg       = "";
+
+            foreach (string word in text.Split(separators, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Debug.WriteLine(word);
+
+                if (word.Contains("temp"))
+                {
+                    return newMsg;
+                }
+            }
+            return newMsg;
         }
 
 

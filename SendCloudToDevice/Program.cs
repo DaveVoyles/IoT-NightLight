@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System.Threading;
@@ -45,11 +41,9 @@ namespace SendCloudToDevice
             while (!quitNow)
             {
                 var readLine = Console.ReadLine();
-                if (readLine == null) continue;
+                if (readLine == null) {continue;}
 
-                string msg       = readLine.ToLower();    
-                List<int> list   = getIntValList(msg);
-                Console.WriteLine(list);
+                string msg  = readLine.ToLower();    
 
                 switch (msg)
                 {
@@ -69,32 +63,6 @@ namespace SendCloudToDevice
             }
         }
 
- 
-
-        /// <summary>
-        /// Parses int from msg str which is sent to IoT device for increase / decrease temp, etc.
-        /// </summary>
-        /// <param name="msg">What do you want to the IoT device to do?</param>
-        /// <returns>Integer used to change values in IoT device</returns>
-        private static int GetIntVal(string msg)
-        {
-            int intInMsg     = 0;
-            string[] numbers = Regex.Split(msg, @"\D");
-
-            foreach (int i in from value in numbers where !string.IsNullOrEmpty(value) select int.Parse(value))
-            {
-                intInMsg = i;
-            }
-            return intInMsg;
-        }
-
-
-        private static List<int> getIntValList(string msg)
-        {
-            string[] numbers = Regex.Split(msg, @"\D");
-
-            return (from value in numbers where !string.IsNullOrEmpty(value) select int.Parse(value)).ToList();
-        }
 
         /// <summary>
         /// Can send messages directly to Raspberry Pi. Requests delivery acknowledgement from device upoen receipt. 
@@ -124,6 +92,7 @@ namespace SendCloudToDevice
                Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
             }
         }
+
 
         private static async void sendMessageToDevice(string cmd)
         {
