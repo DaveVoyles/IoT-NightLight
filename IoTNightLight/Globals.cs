@@ -17,9 +17,8 @@ namespace IoTNightLight
         static Globals()
         {
             rootFrame = Window.Current.Content as Frame;
-            mainPage  = (MainPage)rootFrame.Content;     
+            if (rootFrame != null) mainPage  = (MainPage)rootFrame.Content;
         }
-
 
 
         /// <summary>
@@ -28,13 +27,19 @@ namespace IoTNightLight
         /// <param name="msg">Command sent from console app</param>
         public static void parseMsg(string msg)
         {
-            List<int> list = getIntValList(msg);
-            Debug.WriteLine(list);
+            List<int> listArgs = GetIntValList(msg);
+            foreach (var integer in listArgs)
+            {
+                Debug.WriteLine(integer);
+            }
+            Debug.WriteLine("First Word: " + FirstWordFromMsg(msg));
+
 
             switch (msg)
             {
+                // ---------------------------------------- TWEENING
                 case "tween":
-                    //TODO: Insert tweening value
+                    mainPage.TweenGauge(listArgs[0], listArgs[1], listArgs[2], listArgs[3]);
                     break;
                 // ---------------------------------------- TEMPERATURE
                 case "temp 10":
@@ -130,7 +135,7 @@ namespace IoTNightLight
         /// </summary>
         /// <param name="msg">String sent from console app</param>
         /// <returns>List of integers that can be applied as parameters to functions</returns>
-        private static List<int> getIntValList(string msg)
+        private static List<int> GetIntValList(string msg)
         {
             string[] numbers = Regex.Split(msg, @"\D");
 
@@ -139,9 +144,10 @@ namespace IoTNightLight
 
 
         /// <summary>
-        /// 
+        /// Parse message sent from console app to IoT device
         /// </summary>
         /// <param name="msg">String sent from console app</param>
+        /// <returns>Each word in the string, separately</returns>
         private static string stringValFromMsg(string msg)
         {
             string[] separators = new string[] { ",", ".", "!", "\'", " ", "\'s" };
@@ -151,13 +157,16 @@ namespace IoTNightLight
             foreach (string word in text.Split(separators, StringSplitOptions.RemoveEmptyEntries))
             {
                 Debug.WriteLine(word);
-
-                if (word.Contains("temp"))
-                {
-                    return newMsg;
-                }
             }
             return newMsg;
+        }
+
+
+        private static string FirstWordFromMsg(string msg)
+        {
+            var firstWord = msg.Substring(0, msg.IndexOf(" ", StringComparison.Ordinal));
+
+            return firstWord;
         }
 
 
