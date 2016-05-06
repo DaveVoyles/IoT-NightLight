@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Windows.Globalization.Collation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

@@ -27,7 +27,6 @@ namespace IoTNightLight
             this.InitializeComponent();
         }
 
-
         private void navHandler_OnClick(object sender, RoutedEventArgs e)
         {
             var content = (sender as Button).Content.ToString();

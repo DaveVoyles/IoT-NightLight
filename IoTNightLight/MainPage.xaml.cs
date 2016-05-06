@@ -95,7 +95,8 @@ namespace IoTNightLight
             //    messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
 
             //receiveMsg();
-        }
+
+         }
 
 
         /// <summary>
@@ -195,6 +196,30 @@ namespace IoTNightLight
             }
             Debug.WriteLine("Exiting Tick");
         }
+
+
+
+        // VOID = returns nothing. But I do work on --something!--
+        private void add(int firstNum, int secondNum, int thirdNum)
+        {
+            var sum = firstNum + secondNum + thirdNum;
+        }
+
+
+        private double findmean(double x1, double x2)
+        {
+            return (x1 + x2) / 2;
+        }
+
+   
+
+        private int _addition(int valOne)
+        {
+            return valOne;
+        }
+
+
+
 
 
         /// <summary>

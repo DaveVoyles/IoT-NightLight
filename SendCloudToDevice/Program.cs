@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,7 @@ namespace SendCloudToDevice
 
 
         /// <summary>
-        /// Possible caommands to send to IoT device. Will be turned into a function on the other end.
+        /// Possible commands to send to IoT device. Will be turned into a function on the other end.
         /// </summary>
         private static void ParseConsoleMsg()
         {
@@ -46,16 +47,12 @@ namespace SendCloudToDevice
                 var readLine = Console.ReadLine();
                 if (readLine == null) continue;
 
-                string msg         = readLine.ToLower();
+                string msg       = readLine.ToLower();    
+                int intInCommand = GetIntVal(msg);
+                List<int> list   = getIntValList(msg);
+                Console.WriteLine(list);
 
-
-                // TODO: Need to pull string from here and find out if it includes things like "increase temp"
- 
-                int intInCommand  = GetIntVal(msg);
-                string newMsg     = stringValFromMsg(msg);
-
-
-                switch (newMsg)
+                switch (msg)
                 {
                     case "help":
                         Console.WriteLine("POSSIBLE COMMANDS:       \n" +
@@ -108,18 +105,35 @@ namespace SendCloudToDevice
             string[] separators = new string[] { ",", ".", "!", "\'", " ", "\'s" };
             string text         = msg;
             string newMsg       = "";
+            string[] parts      = msg.Split(',');
 
             foreach (string word in text.Split(separators, StringSplitOptions.RemoveEmptyEntries))
             {
+                int i = int.Parse(word);
                 Console.WriteLine(word);
-
-                if (word.Contains("temp"))
-                {
-                    return newMsg;
-                }
             }
             return newMsg;
         }
+
+
+        //public void parseFromString(string input, out int id, out string name, out int count)
+        //{
+        //    var split = input.Split(',');
+        //    if (split.length == 3) // perhaps more validation here
+        //    {
+        //        id = int.Parse(split[0]);
+        //        name = split[1];
+        //        count = int.Parse(split[2]);
+        //    }
+        //}
+
+        //void parseFromString(string str, out int id, out string name, out int count)
+        //{
+        //    string[] parts = str.split(',');
+        //    id = int.Parse(parts[0]);
+        //    name = parts[1];
+        //    count = int.Parse(parts[2]);
+        //}
 
 
         /// <summary>
@@ -143,6 +157,13 @@ namespace SendCloudToDevice
             return intInMsg;
         }
 
+
+        private static List<int> getIntValList(string msg)
+        {
+            string[] numbers = Regex.Split(msg, @"\D");
+
+            return (from value in numbers where !string.IsNullOrEmpty(value) select int.Parse(value)).ToList();
+        }
 
         /// <summary>
         /// Can send messages directly to Raspberry Pi. Requests delivery acknowledgement from device upoen receipt. 
