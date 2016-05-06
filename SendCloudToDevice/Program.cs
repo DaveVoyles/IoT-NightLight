@@ -48,7 +48,6 @@ namespace SendCloudToDevice
                 if (readLine == null) continue;
 
                 string msg       = readLine.ToLower();    
-                int intInCommand = GetIntVal(msg);
                 List<int> list   = getIntValList(msg);
                 Console.WriteLine(list);
 
@@ -58,44 +57,14 @@ namespace SendCloudToDevice
                         Console.WriteLine("POSSIBLE COMMANDS:       \n" +
                                           "quit                     \n" +
                                           "temp  (int val)          \n" +
-                                          "light (int val)          \n" + 
+                                          "light (int val)          \n" +
                                           "nav to (page name)       \n");
                         break;
                     case "quit":
                         quitNow = true;
                         break;
-                    // -----------------------------------
-                    case "temp 10":
-                        break;
-                    case "temp 30":
-                        break;
-                    case "temp 70":
-                        break;
-                    case "temp 100":
-                        break;
-                    // ------------------------------------
-                    case "light 10":
-                        break;
-                    case "light 30":
-                        break;
-                    case "light 70":
-                        break;
-                    case "light 100":
-                        break;
-                    // ------------------------------------
-                    case "nav to log":
-                        Console.WriteLine("nav to log");
-                        break;
-                    case "nav to main":
-                        Console.WriteLine("nav to main");
-                        break;
-                    case "nav to temp":
-                        Console.WriteLine("nav to temp");
-                        break;
-                    case "nav to light":
-                        Console.WriteLine("nav to light");
-                        break;
                 }
+                Console.WriteLine(msg);
                 sendMessageToDevice(msg);
             }
         }
