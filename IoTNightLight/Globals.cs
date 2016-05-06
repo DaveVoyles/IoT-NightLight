@@ -42,66 +42,30 @@ namespace IoTNightLight
                 // ---------------------------------------- TWEENING
                 case "tween":
                     mainPage.TweenGauge(listArgs[0], listArgs[1], listArgs[2], listArgs[3]);
+                    Debug.WriteLine(firstWord + ": "  + listArgs[0] + " " + listArgs[1] + " " + listArgs[2] + " " + listArgs[3]);
                     break;
                 // ---------------------------------------- TEMPERATURE
-                case "temp 10":
-                    Debug.WriteLine("temp 10");
-                    mainPage.Goto(10);
-                    break;
-                case "temp 30":
-                    Debug.WriteLine("temp 30");
-                    mainPage.Goto(30);
-                    break;
-                case "temp 70":
-                    Debug.WriteLine("temp 70");
-                    mainPage.Goto(70);
-                    break;
-                case "temp 100":
-                    Debug.WriteLine("temp 100");
-                    mainPage.Goto(100);
+                case "temp":
+                    mainPage.ChangeTitleText("Temperature");
+                    mainPage.Goto(listArgs[0]);
+                    Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- LIGHT
-                case "light 10":
-                    mainPage.Goto(10);
-                    break;
-                case "light 30":
-                    mainPage.Goto(30);
-                    break;
-                case "light 70":
-                    mainPage.Goto(70);
-                    break;
-                case "light 100":
-                    mainPage.Goto(100);
+                case "light":
+                    mainPage.ChangeTitleText("Light");
+                    mainPage.Goto(listArgs[0]);
+                    Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- Moisture
-                case "moisture 10":
-                    mainPage.Goto(10);
-                    break;
-                case "moisture 30":
-                    mainPage.Goto(30);
-                    break;
-                case "moisture 70":
-                    mainPage.Goto(70);
-                    break;
-                case "moisture 100":
-                    mainPage.Goto(100);
+                case "moisture":
+                    mainPage.ChangeTitleText("Moisture");
+                    mainPage.Goto(listArgs[0]);
+                    Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- NAVIGATION
                 case "nav to log":
                     Debug.WriteLine("navigating to log page");
                     mainPage.ChangeTitleText("Log");
-                    break;
-                case "nav to moisture":
-                    Debug.WriteLine("navigating to main page");
-                    mainPage.ChangeTitleText("Moisture Page");
-                    break;
-                case "nav to temp":
-                    Debug.WriteLine("navigating to temp page");
-                    mainPage.ChangeTitleText("Temperature");
-                    break;
-                case "nav to light":
-                    Debug.WriteLine("navigating to light page");
-                    mainPage.ChangeTitleText("Light");
                     break;
             }
         }
