@@ -69,41 +69,7 @@ namespace SendCloudToDevice
             }
         }
 
-        private static string stringValFromMsg(string msg)
-        {
-            string[] separators = new string[] { ",", ".", "!", "\'", " ", "\'s" };
-            string text         = msg;
-            string newMsg       = "";
-            string[] parts      = msg.Split(',');
-
-            foreach (string word in text.Split(separators, StringSplitOptions.RemoveEmptyEntries))
-            {
-                int i = int.Parse(word);
-                Console.WriteLine(word);
-            }
-            return newMsg;
-        }
-
-
-        //public void parseFromString(string input, out int id, out string name, out int count)
-        //{
-        //    var split = input.Split(',');
-        //    if (split.length == 3) // perhaps more validation here
-        //    {
-        //        id = int.Parse(split[0]);
-        //        name = split[1];
-        //        count = int.Parse(split[2]);
-        //    }
-        //}
-
-        //void parseFromString(string str, out int id, out string name, out int count)
-        //{
-        //    string[] parts = str.split(',');
-        //    id = int.Parse(parts[0]);
-        //    name = parts[1];
-        //    count = int.Parse(parts[2]);
-        //}
-
+ 
 
         /// <summary>
         /// Parses int from msg str which is sent to IoT device for increase / decrease temp, etc.
@@ -115,13 +81,9 @@ namespace SendCloudToDevice
             int intInMsg     = 0;
             string[] numbers = Regex.Split(msg, @"\D");
 
-            foreach (string value in numbers)
+            foreach (int i in from value in numbers where !string.IsNullOrEmpty(value) select int.Parse(value))
             {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    int i    = int.Parse(value);
-                    intInMsg = i;
-                }
+                intInMsg = i;
             }
             return intInMsg;
         }
