@@ -34,8 +34,10 @@ namespace IoTNightLight
             }
             Debug.WriteLine("First Word: " + FirstWordFromMsg(msg));
 
+            var firstWord = FirstWordFromMsg(msg);
 
-            switch (msg)
+            //switch (msg)
+            switch (firstWord)
             {
                 // ---------------------------------------- TWEENING
                 case "tween":
