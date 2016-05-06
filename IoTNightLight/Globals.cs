@@ -144,6 +144,20 @@ namespace IoTNightLight
 
 
         /// <summary>
+        /// Used to parse functions from console message. Use in tandem w/ GetIntValList, which will
+        /// place parameters within function
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns>First word from the console message</returns>
+        private static string FirstWordFromMsg(string msg)
+        {
+            var firstWord = msg.Substring(0, msg.IndexOf(" ", StringComparison.Ordinal));
+
+            return firstWord;
+        }
+
+
+        /// <summary>
         /// Parse message sent from console app to IoT device
         /// </summary>
         /// <param name="msg">String sent from console app</param>
@@ -159,14 +173,6 @@ namespace IoTNightLight
                 Debug.WriteLine(word);
             }
             return newMsg;
-        }
-
-
-        private static string FirstWordFromMsg(string msg)
-        {
-            var firstWord = msg.Substring(0, msg.IndexOf(" ", StringComparison.Ordinal));
-
-            return firstWord;
         }
 
 
