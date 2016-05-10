@@ -26,6 +26,7 @@ namespace SendCloudToDevice
             Console.WriteLine("SIMULATED DEVICE\n");
             Console.WriteLine("I can send messages directly to the Raspberry Pi. Current target: " +
                               DEVICE_TO_RECEIVE_MSG);
+            // Init client
             deviceClient = DeviceClient.Create(IOT_HUB_URI, new DeviceAuthenticationWithRegistrySymmetricKey(NAME_OF_DEVICE, SHARED_ACCES_KEY));
 
             ParseConsoleMsg();
@@ -47,7 +48,7 @@ namespace SendCloudToDevice
 
                 switch (msg)
                 {
-                    case "help":
+                     case "help":
                         Console.WriteLine("POSSIBLE COMMANDS:       \n" +
                                           "quit                     \n" +
                                           "temp  (int val)          \n" +
@@ -58,8 +59,9 @@ namespace SendCloudToDevice
                         quitNow = true;
                         break;
                 }
-                Console.WriteLine(msg);
+                // Use EITHER of these:
                 sendMessageToDevice(msg);
+                // sendDetailedMessageToDevice(msg);
             }
         }
 
@@ -73,6 +75,7 @@ namespace SendCloudToDevice
         {
             try
             {
+                // TODO: String parses cannot parse out the date/time just yet. Don't use this.
                 var cloudToDeviceMessage    = DateTime.Now.ToLocalTime() + " - " + cmd;
                 ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
 
@@ -104,12 +107,12 @@ namespace SendCloudToDevice
                 var serviceMessage =
                     new Microsoft.Azure.Devices.Message(Encoding.ASCII.GetBytes(cloudToDeviceMessage))
                     {
-                        Ack = DeliveryAcknowledgement.Full,
+                        Ack       = DeliveryAcknowledgement.Full,
                         MessageId = Guid.NewGuid().ToString()
                     };
 
                 await serviceClient.SendAsync(DEVICE_TO_RECEIVE_MSG, serviceMessage);
-                Console.WriteLine(cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG + "\n");
+                Console.WriteLine(cloudToDeviceMessage + (" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG + "\n"));
                 await serviceClient.CloseAsync();
             }
             catch (Exception ex)
@@ -117,6 +120,8 @@ namespace SendCloudToDevice
                 Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
             }
         }
+
+
         private static async void SendDeviceToCloudMessagesAsync()
         {
             double avgWindSpeed = 10; // m/s

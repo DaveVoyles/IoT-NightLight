@@ -28,7 +28,7 @@ namespace IoTNightLight
                 var msg = await AzureIoTHub.ReceiveCloudToDeviceMessageAsync();
                 if (msg == null) continue;
 
-                Globals.parseMsg(msg);
+                Globals.ParseMsg(msg);
             }
         }
 

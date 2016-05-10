@@ -82,21 +82,20 @@ namespace IoTNightLight
             // Initialize GPIO and SPI
             //InitAllAsync();
 
-            // Init device client
+            // INIT DEVICE CLIENT (Either of these can be used to receive messages from IoT Hub)
+            // ---------------------
+
             deviceClient = DeviceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
 
-            // TODO: Prob only need this for app running locally (NOT on Pi)
-            listenForMessageFromDeviceTask();
-
-            // ---------------------
-            // Either of these can be used to receive messages from IoT Hub
-
-            //var messenger = new Msg.Messaging();
+            // OR:
+            //var messenger = new Messaging();
             //    messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
 
+            // ------------------------
+            // RECEIVING MESSAGES
+            listenForMessageFromDeviceTask();
             //receiveMsg();
-
-         }
+        }
 
 
         /// <summary>
@@ -109,7 +108,7 @@ namespace IoTNightLight
                 var msg =  await AzureIoTHub.ReceiveCloudToDeviceMessageAsync();
                 if (msg == null) continue;
 
-                Globals.parseMsg(msg);
+                Globals.ParseMsg(msg);
             }
         }
 
@@ -149,6 +148,7 @@ namespace IoTNightLight
 
         /// <summary>
         /// Can be used to receive messages from IoT Hub
+        /// TODO: Not currently used
         /// </summary>
         private async void receiveMsg()
         {
@@ -156,8 +156,8 @@ namespace IoTNightLight
             while (true)
             {
                 Message receivedMessage = await deviceClient.ReceiveAsync();
-                var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
-                var args = new IoTHubArgs(msg);
+                var msg                 = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+                var args                = new IoTHubArgs(msg);
                 Debug.WriteLine(args);
             }
         }
@@ -197,6 +197,15 @@ namespace IoTNightLight
             Debug.WriteLine("Exiting Tick");
         }
 
+        //public void StopTweening()
+        //{
+        //    Debug.WriteLine("trying to debug");
+        //    if (CurrentStoryboard != null)
+        //    {
+        //        Debug.WriteLine("Storyboard != null: Stopping tween");
+        //        CurrentStoryboard.Stop();
+        //    }
+        //}
 
         /// <summary>
         /// TODO: Unused timer
@@ -235,9 +244,12 @@ namespace IoTNightLight
             createStoryboard(newValue);
         }
 
+        public Storyboard CurrentStoryboard;
+
         private void createStoryboard(double newValue)
         {
             var storyboard = new Storyboard();
+            CurrentStoryboard = storyboard;
             var animation  = new DoubleAnimation
             {
                 To             = newValue,

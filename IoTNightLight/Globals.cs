@@ -16,6 +16,7 @@ namespace IoTNightLight
         
         static Globals()
         {
+            // Get current window and set it to MainPage
             rootFrame = Window.Current.Content as Frame;
             if (rootFrame != null) mainPage  = (MainPage)rootFrame.Content;
         }
@@ -25,45 +26,52 @@ namespace IoTNightLight
         /// Interprets commands from console app and relays to the correct function
         /// </summary>
         /// <param name="msg">Command sent from console app</param>
-        public static void parseMsg(string msg)
+        public static void ParseMsg(string msg)
         {
+            // Grab arguments for functions, but make sure it isn't empty
             List<int> listArgs = GetIntValList(msg);
-            foreach (var integer in listArgs)
+            if (listArgs.Any())
             {
-                Debug.WriteLine(integer);
+                foreach (var integer in listArgs)
+                {
+                    Debug.WriteLine(integer);
+                }
             }
-            Debug.WriteLine("First Word: " + FirstWordFromMsg(msg));
 
-            var firstWord = FirstWordFromMsg(msg);
+            //var firstWord = FirstWordFromMsg(msg);
+            
 
-            //switch (msg)
-            switch (firstWord)
+            //switch (firstWord)
+            switch (msg)
             {
                 // ---------------------------------------- TWEENING
                 case "tween":
                     mainPage.TweenGauge(listArgs[0], listArgs[1], listArgs[2], listArgs[3]);
-                    Debug.WriteLine(firstWord + ": "  + listArgs[0] + " " + listArgs[1] + " " + listArgs[2] + " " + listArgs[3]);
+                    //Debug.WriteLine(firstWord + ": "  + listArgs[0] + " " + listArgs[1] + " " + listArgs[2] + " " + listArgs[3]);
                     break;
+                //case "stop":
+                //    mainPage.StopTweening();
+                //    break;
                 // ---------------------------------------- TEMPERATURE
                 case "temp":
                     mainPage.ChangeTitleText("Temperature");
                     mainPage.Goto(listArgs[0]);
-                    Debug.WriteLine(firstWord + ": " + listArgs[0]);
+                    //Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- LIGHT
                 case "light":
                     mainPage.ChangeTitleText("Light");
                     mainPage.Goto(listArgs[0]);
-                    Debug.WriteLine(firstWord + ": " + listArgs[0]);
+                    //Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- Moisture
                 case "moisture":
                     mainPage.ChangeTitleText("Moisture");
                     mainPage.Goto(listArgs[0]);
-                    Debug.WriteLine(firstWord + ": " + listArgs[0]);
+                    //Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- NAVIGATION
-                case "nav to log":
+                case "log":
                     Debug.WriteLine("navigating to log page");
                     mainPage.ChangeTitleText("Log");
                     break;
