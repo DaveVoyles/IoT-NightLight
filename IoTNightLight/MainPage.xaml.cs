@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Windows.UI.Xaml.Controls;
 using Windows.Devices.Gpio;
@@ -174,7 +176,7 @@ namespace IoTNightLight
             Debug.WriteLine("MESSAGE RECEIVED to MainPage: " + e.Message);
         }
 
-
+        public bool CanTween = true;
         /// <summary>
         /// Tweens gauge on the page back-and-forth between two values
         /// </summary>
@@ -187,23 +189,33 @@ namespace IoTNightLight
             var tweenIndex = 0;
             while (tweenIndex < numOfTweens)
             {
-                Goto(valOne);
-                await Task.Delay(TimeSpan.FromSeconds(delay));
-                Goto(valTwo);
-                tweenIndex++;
-                await Task.Delay(TimeSpan.FromSeconds(delay));
+                while (CanTween)
+                {
+                    Goto(valOne);
+                    await Task.Delay(TimeSpan.FromSeconds(delay));
+                    Goto(valTwo);
+                    tweenIndex++;
+                    await Task.Delay(TimeSpan.FromSeconds(delay));
+                }
             }
             Debug.WriteLine("Exiting Tick");
         }
 
         public void StopTweening()
         {
-            Debug.WriteLine("trying to debug");
-            if (CurrentStoryboard != null)
-            {
-                Debug.WriteLine("Storyboard != null: Stopping tween");
-                CurrentStoryboard.Stop();
-            }
+            Debug.WriteLine("stopping storyboard");
+            CanTween = false;
+            //if (!Storyboards.Any()) return;
+            //foreach (var storyboard in Storyboards)
+            //{
+            //    storyboard.Stop();
+            //    storyboard.Children.Clear();
+            //    Debug.WriteLine("Stopping storybpard: " + storyboard );
+            //}
+            //foreach (var animaton in DoubleAnimations)
+            //{
+            //    animaton.Duration = TimeSpan.FromSeconds(0);
+            //}
         }
 
         /// <summary>
@@ -243,12 +255,13 @@ namespace IoTNightLight
             createStoryboard(newValue);
         }
 
-        public Storyboard CurrentStoryboard;
+        // Trying to get reference to current tween, so that I can stop it
+        public List<Storyboard> Storyboards = new List<Storyboard>();
+        public List<DoubleAnimation> DoubleAnimations = new List<DoubleAnimation>(); 
 
         private void createStoryboard(double newValue)
         {
             var storyboard = new Storyboard();
-            CurrentStoryboard = storyboard;
             var animation  = new DoubleAnimation
             {
                 To             = newValue,
@@ -263,6 +276,8 @@ namespace IoTNightLight
             Storyboard.SetTarget(animation, ArrowTransform);
             Storyboard.SetTargetProperty(animation, "Rotation");
             storyboard.Children.Add(animation);
+            Storyboards.Add(storyboard); // Add this to list
+            DoubleAnimations.Add(animation);
             storyboard.Begin();
             Debug.WriteLine("Beginning storyboard");
         }

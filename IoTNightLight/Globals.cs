@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Windows.Globalization.Collation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
