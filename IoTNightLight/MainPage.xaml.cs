@@ -208,15 +208,15 @@ namespace IoTNightLight
             Debug.WriteLine("Exiting Tick");
         }
 
-        //public void StopTweening()
-        //{
-        //    Debug.WriteLine("trying to debug");
-        //    if (CurrentStoryboard != null)
-        //    {
-        //        Debug.WriteLine("Storyboard != null: Stopping tween");
-        //        CurrentStoryboard.Stop();
-        //    }
-        //}
+        public void StopTweening()
+        {
+            Debug.WriteLine("trying to debug");
+            if (CurrentStoryboard != null)
+            {
+                Debug.WriteLine("Storyboard != null: Stopping tween");
+                CurrentStoryboard.Stop();
+            }
+        }
 
         /// <summary>
         /// TODO: Unused timer

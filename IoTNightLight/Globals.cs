@@ -64,9 +64,9 @@ namespace IoTNightLight
                     mainPage.TweenGauge(listArgs[0], listArgs[1], listArgs[2], listArgs[3]);
                     //Debug.WriteLine(firstWord + ": "  + listArgs[0] + " " + listArgs[1] + " " + listArgs[2] + " " + listArgs[3]);
                     break;
-                //case "stop":
-                //    mainPage.StopTweening();
-                //    break;
+                case "stop":
+                    mainPage.StopTweening();
+                    break;
                 // ---------------------------------------- TEMPERATURE
                 case "temp":
                     mainPage.ChangeTitleText("Temperature");
