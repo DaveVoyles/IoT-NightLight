@@ -37,32 +37,15 @@ namespace IoTNightLight
                     Debug.WriteLine(integer);
                 }
             }
-
-            //var firstWord = FirstWordFromMsg(msg);
-            //var firstWord = mainPage.FirstWordFromMsg(msg);    
-            //switch (firstWord)
-
-
             // Split it on whitespace sequences.
-            //
-            string[] operands = Regex.Split(msg, @"\s+");
-            //
-            // Now we have each token.
-            //
-            foreach (string operand in operands)
-            {
-                
-                Debug.WriteLine(operand);
-            }
+            string[] firstWordInMsg = Regex.Split(msg, @"\s+");
 
-
-            switch (operands[0])
-            //switch (msg)
+            switch (firstWordInMsg[0])
             {
                 // ---------------------------------------- TWEENING
                 case "tween":
                     mainPage.TweenGauge(listArgs[0], listArgs[1], listArgs[2], listArgs[3]);
-                    //Debug.WriteLine(firstWord + ": "  + listArgs[0] + " " + listArgs[1] + " " + listArgs[2] + " " + listArgs[3]);
+                    Debug.WriteLine(firstWordInMsg + ": "  + listArgs[0] + " " + listArgs[1] + " " + listArgs[2] + " " + listArgs[3]);
                     break;
                 case "stop":
                     mainPage.StopTweening();
@@ -71,19 +54,19 @@ namespace IoTNightLight
                 case "temp":
                     mainPage.ChangeTitleText("Temperature");
                     if (listArgs.Any()){ mainPage.Goto(listArgs[0]);}
-                    //Debug.WriteLine(firstWord + ": " + listArgs[0]);
+                    Debug.WriteLine(firstWordInMsg + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- LIGHT
                 case "light":
                     mainPage.ChangeTitleText("Light");
                     if (listArgs.Any()) { mainPage.Goto(listArgs[0]); }
-                    //Debug.WriteLine(firstWord + ": " + listArgs[0]);
+                    Debug.WriteLine(firstWordInMsg + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- Moisture
                 case "moisture":
                     mainPage.ChangeTitleText("Moisture");
                     if (listArgs.Any()) { mainPage.Goto(listArgs[0]); }
-                    //Debug.WriteLine(firstWord + ": " + listArgs[0]);
+                    Debug.WriteLine(firstWordInMsg + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- NAVIGATION
                 case "log":
