@@ -39,10 +39,25 @@ namespace IoTNightLight
             }
 
             //var firstWord = FirstWordFromMsg(msg);
-            
-
+            //var firstWord = mainPage.FirstWordFromMsg(msg);    
             //switch (firstWord)
-            switch (msg)
+
+
+            // Split it on whitespace sequences.
+            //
+            string[] operands = Regex.Split(msg, @"\s+");
+            //
+            // Now we have each token.
+            //
+            foreach (string operand in operands)
+            {
+                
+                Debug.WriteLine(operand);
+            }
+
+
+            switch (operands[0])
+            //switch (msg)
             {
                 // ---------------------------------------- TWEENING
                 case "tween":
@@ -55,19 +70,19 @@ namespace IoTNightLight
                 // ---------------------------------------- TEMPERATURE
                 case "temp":
                     mainPage.ChangeTitleText("Temperature");
-                    mainPage.Goto(listArgs[0]);
+                    if (listArgs.Any()){ mainPage.Goto(listArgs[0]);}
                     //Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- LIGHT
                 case "light":
                     mainPage.ChangeTitleText("Light");
-                    mainPage.Goto(listArgs[0]);
+                    if (listArgs.Any()) { mainPage.Goto(listArgs[0]); }
                     //Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- Moisture
                 case "moisture":
                     mainPage.ChangeTitleText("Moisture");
-                    mainPage.Goto(listArgs[0]);
+                    if (listArgs.Any()) { mainPage.Goto(listArgs[0]); }
                     //Debug.WriteLine(firstWord + ": " + listArgs[0]);
                     break;
                 // ---------------------------------------- NAVIGATION
@@ -114,20 +129,6 @@ namespace IoTNightLight
             string[] numbers = Regex.Split(msg, @"\D");
 
             return (from value in numbers where !string.IsNullOrEmpty(value) select int.Parse(value)).ToList();
-        }
-
-
-        /// <summary>
-        /// Used to parse functions from console message. Use in tandem w/ GetIntValList, which will
-        /// place parameters within function
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns>First word from the console message</returns>
-        private static string FirstWordFromMsg(string msg)
-        {
-            var firstWord = msg.Substring(0, msg.IndexOf(" ", StringComparison.Ordinal));
-
-            return firstWord;
         }
 
 

@@ -174,7 +174,18 @@ namespace IoTNightLight
             Debug.WriteLine("MESSAGE RECEIVED to MainPage: " + e.Message);
         }
 
+        /// <summary>
+        /// Used to parse functions from console message. Use in tandem w/ GetIntValList, which will
+        /// place parameters within function
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns>First word from the console message</returns>
+        public string FirstWordFromMsg(string msg)
+        {
+            var firstWord = msg.Substring(0, msg.IndexOf(" ", StringComparison.Ordinal));
 
+            return firstWord;
+        }
 
         /// <summary>
         /// Tweens gauge on the page back-and-forth between two values
