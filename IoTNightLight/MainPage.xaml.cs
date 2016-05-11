@@ -150,34 +150,9 @@ namespace IoTNightLight
         }
 
 
-        /// <summary>
-        /// Can be used to receive messages from IoT Hub
-        /// TODO: Not currently used
-        /// </summary>
-        private async void receiveMsg()
-        {
 
-            while (true)
-            {
-                Message receivedMessage = await deviceClient.ReceiveAsync();
-                var msg                 = Encoding.ASCII.GetString(receivedMessage.GetBytes());
-                var args                = new IoTHubArgs(msg);
-                Debug.WriteLine(args);
-            }
-        }
-
-
-        /// <summary>
-        /// Raw text from message: e.Message  ex: Debug.WriteLine(e.Message);
-        /// </summary>
-        /// <param name="sender">Who sent the message</param>
-        /// <param name="e">Contents of the message</param>
-        private void Messenger_MsgReceivedHandler(object sender, IoTHubArgs e)
-        {
-            // TODO: Add a function
-            Debug.WriteLine("MESSAGE RECEIVED to MainPage: " + e.Message);
-        }
-
+        /* TWEENING
+         * ==========================================================*/
 
         /// <summary>
         /// Tweens gauge on the page back-and-forth between two values
@@ -191,22 +166,32 @@ namespace IoTNightLight
             var tweenIndex = 0;
             while (tweenIndex < numOfTweens)
             {
-                while (canTween)
+                if (!canTween)
                 {
-                    Goto(valOne);
-                    await Task.Delay(TimeSpan.FromSeconds(delay));
-                    Goto(valTwo);
-                    tweenIndex++;
-                    await Task.Delay(TimeSpan.FromSeconds(delay));
+                    Debug.WriteLine("Can't tween, returning");
+                    return;
                 }
+                
+                Debug.WriteLine("Can tween, so gonna do it");
+                Goto(valOne); // Forward
+                await Task.Delay(TimeSpan.FromSeconds(delay));
+                Goto(valTwo); // Back
+                await Task.Delay(TimeSpan.FromSeconds(delay));
+                tweenIndex++; // One revolution complete
             }
             Debug.WriteLine("Exiting Tick");
         }
 
-        public void StopTweening()
+        public void PreventTweening()
         {
-            Debug.WriteLine("stopping storyboard");
-            canTween = false;         
+            canTween = false;
+            Debug.WriteLine("canTween: " + canTween);
+        }
+
+        public void AllowTweening()
+        {
+            canTween = true;
+            Debug.WriteLine("canTween: " + canTween);
         }
 
         /// <summary>
@@ -539,6 +524,37 @@ namespace IoTNightLight
             }
         }
 
+
+
+        /* NOT IN USE
+         * ==========================================================*/
+        /// <summary>
+        /// Raw text from message: e.Message  ex: Debug.WriteLine(e.Message);
+        /// </summary>
+        /// <param name="sender">Who sent the message</param>
+        /// <param name="e">Contents of the message</param>
+        private void Messenger_MsgReceivedHandler(object sender, IoTHubArgs e)
+        {
+            // TODO: Add a function
+            Debug.WriteLine("MESSAGE RECEIVED to MainPage: " + e.Message);
+        }
+
+
+        /// <summary>
+        /// Can be used to receive messages from IoT Hub
+        /// TODO: Not currently used
+        /// </summary>
+        private async void receiveMsg()
+        {
+
+            while (true)
+            {
+                Message receivedMessage = await deviceClient.ReceiveAsync();
+                var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+                var args = new IoTHubArgs(msg);
+                Debug.WriteLine(args);
+            }
+        }
 
     }
 }

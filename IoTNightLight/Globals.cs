@@ -43,11 +43,12 @@ namespace IoTNightLight
             {
                 // ---------------------------------------- TWEENING
                 case "tween":
+                    mainPage.AllowTweening();
                     mainPage.TweenGauge(listArgs[0], listArgs[1], listArgs[2], listArgs[3]);
                     Debug.WriteLine(firstWordInMsg + ": "  + listArgs[0] + " " + listArgs[1] + " " + listArgs[2] + " " + listArgs[3]);
                     break;
                 case "stop":
-                    mainPage.StopTweening();
+                    mainPage.PreventTweening();
                     break;
                 // ---------------------------------------- TEMPERATURE
                 case "temp":
@@ -134,24 +135,29 @@ namespace IoTNightLight
 
 
         /* NAVIGATION
+         * These change the title of the page and prevent it from tweening the old values from prev page
          * ==========================================================*/
         public static void Nav_To_Temp(object sender, RoutedEventArgs e)
         {
+            mainPage.PreventTweening();
             mainPage.ChangeTitleText("Temperature");
         }
 
         public static void Nav_To_Main(object sender, RoutedEventArgs e)
         {
+            mainPage.PreventTweening();
             mainPage.ChangeTitleText("Moisture");
         }
 
         public static void Nav_To_Light(object sender, RoutedEventArgs e)
         {
+            mainPage.PreventTweening();
             mainPage.ChangeTitleText("Light");
         }
 
         public static void Nav_To_Log(object sender, RoutedEventArgs e)
         {
+            mainPage.PreventTweening();
             mainPage.ChangeTitleText("Log");
         }
 
