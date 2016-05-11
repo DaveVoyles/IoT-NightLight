@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using Windows.UI.Xaml.Controls;
 using Windows.Devices.Gpio;
@@ -13,10 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using IoTNightLight.Msg;
-using Microsoft.Azure.Amqp.Framing;
 using Microsoft.Azure.Devices.Client;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace IoTNightLight
 {
@@ -33,14 +28,14 @@ namespace IoTNightLight
         };
 
         // used for http1 for DeviceClient.Create() (also called iotHubUri)
-        private const string IOT_HUB_HOST_NAME = "dv-iot-labs.azure-devices.net";
+        private const string IOT_HUB_HOST_NAME       = "dv-iot-labs.azure-devices.net";
         // Use the device specific connection string here. Used for AMQPS and DeviceClient.CreateFromConnectionString()
-        private const string IOT_HUB_CONN_STRING = "HostName=dv-iot-labs.azure-devices.net;DeviceId=minwinpc;SharedAccessKey=EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
+        private const string IOT_HUB_CONN_STRING     = "HostName=dv-iot-labs.azure-devices.net;DeviceId=minwinpc;SharedAccessKey=EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
         // Use the name of your Azure IoT device here - this should be the same as the name in the connections string
-        private const string IOT_HUB_DEVICE = "minwinpc";
+        private const string IOT_HUB_DEVICE          = "minwinpc";
         // Provide a short description of the location of the device, such as 'Home Office' or 'Garage'
         private const string IOT_HUB_DEVICE_LOCATION = "home-office";
-        private const string IOT_DEVICE_KEY = "EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
+        private const string IOT_DEVICE_KEY          = "EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
 
         // Line 0 maps to physical pin 24 on the RPi2
         private const Int32 SPI_CHIP_SELECT_LINE = 0;
@@ -72,7 +67,7 @@ namespace IoTNightLight
         private int timerDelay;
         private int timerIn_MS;
         // Prevents the animation gauge from tweening back-and-forth
-        private bool canTween = true;
+        private bool _canTween = true;
 
 
         public MainPage()
@@ -166,7 +161,7 @@ namespace IoTNightLight
             var tweenIndex = 0;
             while (tweenIndex < numOfTweens)
             {
-                if (!canTween)
+                if (!_canTween)
                 {
                     Debug.WriteLine("Can't tween, returning");
                     return;
@@ -184,14 +179,14 @@ namespace IoTNightLight
 
         public void PreventTweening()
         {
-            canTween = false;
-            Debug.WriteLine("canTween: " + canTween);
+            _canTween = false;
+            Debug.WriteLine("canTween: " + _canTween);
         }
 
         public void AllowTweening()
         {
-            canTween = true;
-            Debug.WriteLine("canTween: " + canTween);
+            _canTween = true;
+            Debug.WriteLine("canTween: " + _canTween);
         }
 
         /// <summary>
