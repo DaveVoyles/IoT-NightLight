@@ -21,15 +21,19 @@ There are only three classes you need to be concerned with:
 
 ### Setup
 -- [Install / configure Win 10 on the Pi](http://thinglabs.io/workshop/cs/nightlight/)
+
 Follow the instructions for *Getting Started* and *Setting Up Your Raspberry Pi*
 
 * -- Deploy multiple applications from within Visual Studio
+
 You want to deploy the *Send Cloud To Device* app as an x86 app and *IoTNightLight* as an ARM project
 
 * -- Make note of the IP address of the Raspberry Pi
+
 Turn it on, and the IPV4 address is the one you are looking for. Should look something like 192.168.1.23
 
 * -- In the IoTNightLight project (NOT the solution) change the target device to:  *Remote Machine*
+
 This is done by right-click on "properties" on the IoTNightLight (Universal Windows) project. Under the tab for "Debug", there is a 
 an are marked "Target device." Change that to "Remote Machine" then add the IP address of your Raspberry Pi.
 
