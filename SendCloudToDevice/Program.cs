@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Text;
 using Microsoft.Azure.Devices.Client;
-using Newtonsoft.Json;
-using System.Threading;
 using Microsoft.Azure.Devices;
-using Message = Microsoft.Azure.Devices.Client.Message;
 
 
 namespace SendCloudToDevice
@@ -12,8 +9,6 @@ namespace SendCloudToDevice
     /* Sends message from  console app directly to Rasp Pi via IoT Hub */
     class Program
     {
-        static DeviceClient deviceClient;
-
         private const string IOT_HUB_URI           = "dv-iot-labs.azure-devices.net";
         private const string DEVICE_TO_RECEIVE_MSG = "minwinpc";
         private const string NAME_OF_DEVICE        = "DeviceClient";
@@ -27,14 +22,13 @@ namespace SendCloudToDevice
             Console.WriteLine("I can send messages directly to the Raspberry Pi. Current target: " +
                               DEVICE_TO_RECEIVE_MSG);
             // Init client
-            deviceClient = DeviceClient.Create(IOT_HUB_URI, new DeviceAuthenticationWithRegistrySymmetricKey(NAME_OF_DEVICE, SHARED_ACCES_KEY));
-
+            DeviceClient.Create(IOT_HUB_URI, new DeviceAuthenticationWithRegistrySymmetricKey(NAME_OF_DEVICE, SHARED_ACCES_KEY));
             ParseConsoleMsg();
         }
 
 
         /// <summary>
-        /// Possible commands to send to IoT device. Will be turned into a function on the other end.
+        /// Reads text from console app and sends messages to the IoT Hub, which the Rasp Pi reads.
         /// </summary>
         private static void ParseConsoleMsg()
         {
@@ -59,44 +53,15 @@ namespace SendCloudToDevice
                         quitNow = true;
                         break;
                 }
-                // Use EITHER of these:
                 sendMessageToDevice(msg);
-                // sendDetailedMessageToDevice(msg);
             }
         }
 
 
         /// <summary>
         /// Can send messages directly to Raspberry Pi. Requests delivery acknowledgement from device upoen receipt. 
-        /// Also sends timestamp for debugging.
         /// </summary>
         /// <param name="cmd">String to pass to the IoT device, which will turn into a function upon receipt.</param>
-        private static async void sendDetailedMessageToDevice(string cmd)
-        {
-            try
-            {
-                // TODO: String parses cannot parse out the date/time just yet. Don't use this.
-                var cloudToDeviceMessage    = DateTime.Now.ToLocalTime() + " - " + cmd;
-                ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
-
-                var serviceMessage =
-                    new Microsoft.Azure.Devices.Message(Encoding.ASCII.GetBytes(cloudToDeviceMessage))
-                    {
-                        Ack       = DeliveryAcknowledgement.Full,
-                        MessageId = Guid.NewGuid().ToString()
-                    };
-
-                await serviceClient.SendAsync(DEVICE_TO_RECEIVE_MSG, serviceMessage);
-                Console.WriteLine( cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG + "\n");
-                await serviceClient.CloseAsync();
-            }
-            catch (Exception ex)
-            {
-               Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
-            }
-        }
-
-
         private static async void sendMessageToDevice(string cmd)
         {
             try
@@ -122,28 +87,37 @@ namespace SendCloudToDevice
         }
 
 
-        private static async void SendDeviceToCloudMessagesAsync()
+
+        /// <summary>
+        /// Can send messages directly to Raspberry Pi. Requests delivery acknowledgement from device upoen receipt. 
+        /// Also sends timestamp for debugging.
+        /// </summary>
+        /// <param name="cmd">String to pass to the IoT device, which will turn into a function upon receipt.</param>
+        private static async void sendDetailedMessageToDevice(string cmd)
         {
-            double avgWindSpeed = 10; // m/s
-            Random rand = new Random();
-
-            while (true)
+            try
             {
-                double currentWindSpeed = avgWindSpeed + rand.NextDouble() * 4 - 2;
+                // TODO: String parses cannot parse out the date/time just yet. Don't use this.
+                var cloudToDeviceMessage = DateTime.Now.ToLocalTime() + " - " + cmd;
+                ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IOT_HUB_CONN_STRING);
 
-                var telemetryDataPoint = new
-                {
-                    deviceId = "myFirstDevice",
-                    windSpeed = currentWindSpeed
-                };
-                var messageString = JsonConvert.SerializeObject(telemetryDataPoint);
-                var message = new Message(Encoding.ASCII.GetBytes(messageString));
+                var serviceMessage =
+                    new Microsoft.Azure.Devices.Message(Encoding.ASCII.GetBytes(cloudToDeviceMessage))
+                    {
+                        Ack = DeliveryAcknowledgement.Full,
+                        MessageId = Guid.NewGuid().ToString()
+                    };
 
-                await deviceClient.SendEventAsync(message);
-                Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
-
-                Thread.Sleep(1000);
+                await serviceClient.SendAsync(DEVICE_TO_RECEIVE_MSG, serviceMessage);
+                Console.WriteLine(cloudToDeviceMessage += $" sent to Device ID: " + DEVICE_TO_RECEIVE_MSG + "\n");
+                await serviceClient.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("EXCEPTION. Unable to sendMessageToDevice(). " + ex.ToString());
             }
         }
+
+
     }
 }
