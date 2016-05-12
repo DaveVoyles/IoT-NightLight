@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="NameBlock" Text="Main Page" RelativePanel.AlignHorizontalCenterWithPanel="True" 
+        <TextBlock x:Name="NameBlock" Text="Temperature" RelativePanel.AlignHorizontalCenterWithPanel="True" 
                    RelativePanel.AlignTopWithPanel="true"
                    HorizontalAlignment="Center"
                    FontSize="34" />

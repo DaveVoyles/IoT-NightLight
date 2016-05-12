@@ -97,6 +97,12 @@ namespace IoTNightLight
         }
 
 
+        private void hideTextBox()
+        {
+            MyTextBox.Visibility = Visibility.Collapsed;
+            ValBtn.Visibility    = Visibility.Collapsed;
+        }
+
         /// <summary>
         /// Always listens for messages directly from console app
         /// </summary>
@@ -252,6 +258,7 @@ namespace IoTNightLight
          * ==========================================================*/
         private void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            hideTextBox();
             Goto(70);
         }
 
