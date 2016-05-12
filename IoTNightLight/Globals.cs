@@ -116,11 +116,12 @@ namespace IoTNightLight
 
 
         /// <summary>
-        /// Parse message sent from console app to IoT device
+        /// Splits each word in the string receives from the console app.
+        /// TODO: Not currently used.
         /// </summary>
         /// <param name="msg">String sent from console app</param>
         /// <returns>Each word in the string, separately</returns>
-        private static string stringValFromMsg(string msg)
+        private static string SplitEachWordFromString(string msg)
         {
             string[] separators = new string[] { ",", ".", "!", "\'", " ", "\'s" };
             string text         = msg;

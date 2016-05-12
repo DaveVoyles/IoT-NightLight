@@ -152,11 +152,11 @@ namespace IoTNightLight
         /// <summary>
         /// Tweens gauge on the page back-and-forth between two values
         /// </summary>
-        /// <param name="valOne">Initial val</param>
-        /// <param name="valTwo">Final val</param>
+        /// <param name="startVal">Gauge starts here</param>
+        /// <param name="finalVal">Final val</param>
         /// <param name="numOfTweens">How many times should it tween between both vals?</param>
-        /// <param name="delay">Delay between tweening</param>
-        public async void TweenGauge(int valOne, int valTwo, int numOfTweens, int delay)
+        /// <param name="cycleTime">Delay between tweening</param>
+        public async void TweenGauge(int startVal, int finalVal, int numOfTweens, int cycleTime)
         {
             var tweenIndex = 0;
             while (tweenIndex < numOfTweens)
@@ -168,10 +168,10 @@ namespace IoTNightLight
                 }
                 
                 Debug.WriteLine("Can tween, so gonna do it");
-                Goto(valOne); // Forward
-                await Task.Delay(TimeSpan.FromSeconds(delay));
-                Goto(valTwo); // Back
-                await Task.Delay(TimeSpan.FromSeconds(delay));
+                Goto(startVal); // Forward
+                await Task.Delay(TimeSpan.FromSeconds(cycleTime));
+                Goto(finalVal); // Back
+                await Task.Delay(TimeSpan.FromSeconds(cycleTime));
                 tweenIndex++; // One revolution complete
             }
             Debug.WriteLine("Exiting Tick");
