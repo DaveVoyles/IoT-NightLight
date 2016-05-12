@@ -35,5 +35,21 @@ an are marked "Target device." Change that to "Remote Machine" then add the IP a
 
 
 ### Possible Commands
--- Tween
-Accepts parameters for 
+These are all just strrings that you send to the pi. Example:
+
+"tween 20 100 10 1"
+This would call the tween function, which would start the gauge at 20, and it would move up to 100. It would do this 10 times, and take 1 second to do a full "cycle" of that.
+
+-- tween
+parms:
+startVal - Gauge starts here
+finalVal - Gauge stops here
+numofTweens - How many times does it go back and forth?
+delay - How long does it take to do one full cycle?
+
+
+-- To nav between pages, simply type the name of the page. Ex:
+"moisture"
+"temp"
+"light"
+
