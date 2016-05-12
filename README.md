@@ -42,14 +42,14 @@ This would call the tween function, which would start the gauge at 20, and it wo
 
 -- tween
 parms:
-startVal - Gauge starts here
-finalVal - Gauge stops here
-numofTweens - How many times does it go back and forth?
-delay - How long does it take to do one full cycle?
+* startVal - Gauge starts here
+* finalVal - Gauge stops here
+* numofTweens - How many times does it go back and forth?
+* delay - How long does it take to do one full cycle?
 
 
 -- To nav between pages, simply type the name of the page. Ex:
-"moisture"
-"temp"
-"light"
+* "moisture"
+* "temp"
+* "light"
 
