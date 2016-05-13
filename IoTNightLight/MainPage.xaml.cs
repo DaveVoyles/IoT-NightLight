@@ -17,6 +17,7 @@ namespace IoTNightLight
 {
     public sealed partial class MainPage : Page
     {
+   #region Hardware variabls
         /* IMPORTANT! Change this to either AdcDevice.MCP3002 or AdcDevice.MCP3208 depending on which ADC you have     */
         private AdcDevice ADC_DEVICE = AdcDevice.MCP3002;
 
@@ -26,6 +27,30 @@ namespace IoTNightLight
             MCP3002,
             MCP3208
         };
+
+        // Line 0 maps to physical pin 24 on the RPi2
+        private const Int32 SPI_CHIP_SELECT_LINE = 0;
+        private const string SPI_CONTROLLER_NAME = "SPI0";
+
+        // 01101000 channel configuration data for the MCP3002
+        private const byte MCP3002_CONFIG        = 0x68;
+        // 00000110 channel configuration data for the MCP3208 
+        private const byte MCP3208_CONFIG        = 0x06;
+
+        private const int RED_LED_PIN            = 12;
+
+        private GpioPin redLedPin;
+        private SpiDevice spiAdc;
+        private int adcResolution;
+        private int adcValue;
+
+        private SolidColorBrush redFill  = new SolidColorBrush(Windows.UI.Colors.Red);
+        private SolidColorBrush grayFill = new SolidColorBrush(Windows.UI.Colors.LightGray);
+
+        private Timer readSensorTimer;
+        private Timer sendMessageTimer;
+#endregion
+
 
         // used for http1 for DeviceClient.Create() (also called iotHubUri)
         private const string IOT_HUB_HOST_NAME       = "dv-iot-labs.azure-devices.net";
@@ -37,35 +62,8 @@ namespace IoTNightLight
         private const string IOT_HUB_DEVICE_LOCATION = "home-office";
         private const string IOT_DEVICE_KEY          = "EVY5HecasruKNR0DRpxTpHYw1717v0C6TEkJ2QYeExI=";
 
-        // Line 0 maps to physical pin 24 on the RPi2
-        private const Int32 SPI_CHIP_SELECT_LINE = 0;
-        private const string SPI_CONTROLLER_NAME = "SPI0";
-
-        // 01101000 channel configuration data for the MCP3002
-        private const byte MCP3002_CONFIG = 0x68;
-        // 00000110 channel configuration data for the MCP3208 
-        private const byte MCP3208_CONFIG = 0x06;
-
-        private const int RED_LED_PIN    = 12;
-
-        private SolidColorBrush redFill  = new SolidColorBrush(Windows.UI.Colors.Red);
-        private SolidColorBrush grayFill = new SolidColorBrush(Windows.UI.Colors.LightGray);
-
         private static DeviceClient deviceClient;
-  
-        private GpioPin redLedPin;
-        private SpiDevice spiAdc;
-        private int adcResolution;
-        private int adcValue;
 
-        private Timer readSensorTimer;
-        private Timer sendMessageTimer;
-
-        // Placeholder values for tweening gauge
-        private DispatcherTimer timer;
-        private int numOfTicks;
-        private int timerDelay;
-        private int timerIn_MS;
         // Prevents the animation gauge from tweening back-and-forth
         private bool _canTween = true;
 
@@ -90,10 +88,7 @@ namespace IoTNightLight
             //var messenger = new Messaging();
             //    messenger.MsgReceivedHandler += Messenger_MsgReceivedHandler;
 
-            // ------------------------
-            // RECEIVING MESSAGES
             listenForMessageFromDeviceTask();
-            //receiveMsg();
         }
 
 
@@ -195,21 +190,6 @@ namespace IoTNightLight
             Debug.WriteLine("canTween: " + _canTween);
         }
 
-        /// <summary>
-        /// TODO: Unused timer
-        /// </summary>
-        //public async void Timer_Tick(object sender, object e)
-        //{
-        //    numOfTicks = 3;
-        //    while (numOfTicks <= 3)
-        //    {
-        //        Goto(100);
-        //        await Task.Delay(TimeSpan.FromSeconds(5));
-        //        Goto(90);
-        //        numOfTicks++;
-        //    }
-        //}
-
 
         /* GAUGE
          * ==========================================================*/
@@ -277,6 +257,7 @@ namespace IoTNightLight
 
 
 
+#region Messaging
         ///* MESSAGING
         // * ==========================================================*/
         //private async Task ReceiveC2dAsync()
@@ -342,9 +323,9 @@ namespace IoTNightLight
         //    }
         //}
 
+        #endregion
 
-
-
+#region hardware
         /* HARDWARE
          * ==========================================================*/
         //private async Task InitAllAsync()
@@ -525,38 +506,8 @@ namespace IoTNightLight
                 throw new Exception("SPI initialization failed.", ex);
             }
         }
+#endregion hardware
 
-
-
-        /* NOT IN USE
-         * ==========================================================*/
-        /// <summary>
-        /// Raw text from message: e.Message  ex: Debug.WriteLine(e.Message);
-        /// </summary>
-        /// <param name="sender">Who sent the message</param>
-        /// <param name="e">Contents of the message</param>
-        private void Messenger_MsgReceivedHandler(object sender, IoTHubArgs e)
-        {
-            // TODO: Add a function
-            Debug.WriteLine("MESSAGE RECEIVED to MainPage: " + e.Message);
-        }
-
-
-        /// <summary>
-        /// Can be used to receive messages from IoT Hub
-        /// TODO: Not currently used
-        /// </summary>
-        private async void receiveMsg()
-        {
-
-            while (true)
-            {
-                Message receivedMessage = await deviceClient.ReceiveAsync();
-                var msg = Encoding.ASCII.GetString(receivedMessage.GetBytes());
-                var args = new IoTHubArgs(msg);
-                Debug.WriteLine(args);
-            }
-        }
 
     }
 }
